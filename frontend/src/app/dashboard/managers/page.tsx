@@ -1,14 +1,14 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { MoreHorizontal, UserX, Plus } from "lucide-react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal, UserX, Plus } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Mock data for content managers
 const initialManagers = [
@@ -37,14 +37,14 @@ const initialManagers = [
     name: "David Brown",
     email: "david.brown@example.com",
   },
-]
+];
 
 export default function ContentManagersPage() {
-  const [managers, setManagers] = useState(initialManagers)
-  const [selectedManager, setSelectedManager] = useState<any>(null)
-  const [isRevokeDialogOpen, setIsRevokeDialogOpen] = useState(false)
-  const [isAddManagerDialogOpen, setIsAddManagerDialogOpen] = useState(false)
-  const [newManager, setNewManager] = useState({ name: "", email: "" })
+  const [managers, setManagers] = useState(initialManagers);
+  const [selectedManager, setSelectedManager] = useState<any>(null);
+  const [isRevokeDialogOpen, setIsRevokeDialogOpen] = useState(false);
+  const [isAddManagerDialogOpen, setIsAddManagerDialogOpen] = useState(false);
+  const [newManager, setNewManager] = useState({ name: "", email: "" });
 
   const handleRevokeAccess = () => {
     setManagers(managers.filter((manager) => manager.id !== selectedManager.id))
@@ -76,6 +76,7 @@ export default function ContentManagersPage() {
               <TableRow className="">
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead className="pl-6">Status</TableHead>
                 <TableHead className="pl-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -84,10 +85,17 @@ export default function ContentManagersPage() {
                 <TableRow key={manager.id} className="">
                   <TableCell className="font-medium">{manager.name}</TableCell>
                   <TableCell>{manager.email}</TableCell>
+                  <TableCell>
+                    <Link href='/log'>
+                      <Button variant={"ghost"}>
+                       📝 History
+                      </Button>
+                    </Link>
+                  </TableCell>
                   <TableCell className="">
                     <Button variant="ghost" className="text-red-600">
-                        <UserX className="mr-2 h-4 w-4" />
-                        Remove Manager
+                        <UserX className="mr-1 h-4 w-4" />
+                        Remove
                     </Button>
                   </TableCell>
                 </TableRow>
