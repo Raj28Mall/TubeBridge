@@ -15,11 +15,15 @@ export default function AuthPage() {
   const handleAuth = () => {
     // In a real app, this would handle the authentication
     // For now, we'll just redirect to the dashboard
-    router.push(`/dashboard`)
+    if (selectedRole === "admin") {
+      router.push(`/dashboard`)
+    } else {
+      router.push(`/content-manager`)
+    }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
       <Card className="w-full max-w-md">
         <Tabs defaultValue="signin" className="w-full">
           <TabsList className="grid w-full grid-cols-2">

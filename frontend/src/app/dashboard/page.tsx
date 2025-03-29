@@ -1,9 +1,13 @@
+"use client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { CheckCircle, Clock, AlertCircle, Eye, Check } from "lucide-react"
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+
 
 // Mock data for recent activities
 const recentActivities = [
@@ -15,32 +19,33 @@ const recentActivities = [
 ]
 
 // Mock data for pending approvals
-const pendingApprovals = [
-  { id: 1, title: "Product Launch Video", submitter: "Jane Smith", submitted: "2 hours ago", type: "Video" },
-  { id: 2, title: "Q1 Results Presentation", submitter: "Mike Johnson", submitted: "5 hours ago", type: "Document" },
-  { id: 3, title: "New Marketing Campaign", submitter: "Sarah Williams", submitted: "Yesterday", type: "Image" },
-  { id: 4, title: "Customer Testimonial", submitter: "David Brown", submitted: "2 days ago", type: "Video" },
-]
 
 export default function Dashboard() {
+  const [pendingApprovals, setPendingApprovals] =useState( [
+    { id: 1, title: "Product Launch Video", submitter: "Jane Smith", submitted: "2 hours ago",  },
+    { id: 2, title: "Q1 Results Presentation", submitter: "Mike Johnson", submitted: "5 hours ago", },
+    { id: 3, title: "New Marketing Campaign", submitter: "Sarah Williams", submitted: "Yesterday", },
+    { id: 4, title: "Customer Testimonial", submitter: "David Brown", submitted: "2 days ago",  },
+  ]);
+
   return (
-    <div className="space-y-6">
-      <div className="grid gap-6 md:grid-cols-2">
+    <div className="space-y-6 w-[79vw]">
+      <div className="grid gap-6 md:grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]">
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="">
             <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">7</div>
+          <CardContent className="-my-3">
+            <div className="text-2xl font-bold pb-3">7</div>
             <p className="text-xs text-muted-foreground">+3 since yesterday</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="pb-2">
+          <CardHeader className="-pb-6">
             <CardTitle className="text-sm font-medium">Content Approved (This Week)</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">24</div>
+          <CardContent className="-my-3">
+            <div className="text-2xl font-bold pb-3">24</div>
             <p className="text-xs text-muted-foreground">+5 from last week</p>
           </CardContent>
         </Card>
@@ -55,7 +60,7 @@ export default function Dashboard() {
         <TabsContent value="approvals" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Pending Approvals</CardTitle>
+              <CardTitle className="text-xl">Pending Approvals</CardTitle>
               <CardDescription>Content waiting for your review</CardDescription>
             </CardHeader>
             <CardContent>
@@ -63,11 +68,10 @@ export default function Dashboard() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead>Submitter</TableHead>
-                      <TableHead>Submitted</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Actions</TableHead>
+                      <TableHead className="font-bold text-lg">Title</TableHead>
+                      <TableHead className="font-bold text-lg">Submitter</TableHead>
+                      <TableHead className="font-bold text-lg">Submitted</TableHead>
+                      <TableHead className="font-bold text-lg">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -76,7 +80,6 @@ export default function Dashboard() {
                         <TableCell className="font-medium">{item.title}</TableCell>
                         <TableCell>{item.submitter}</TableCell>
                         <TableCell>{item.submitted}</TableCell>
-                        <TableCell>{item.type}</TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm">
                             <Eye className="mr-1 h-4 w-4" /> Review
