@@ -28,14 +28,14 @@ export default function DashboardLayout({
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar>
-          <SidebarHeader className="flex items-center px-4 py-2">
+          <SidebarHeader className="flex items-center px-4 py-5">
             <h2 className="text-lg font-semibold">Admin Dashboard</h2>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
-                  <Link href="/dashboard">
+                  <Link className="pl-4" href="/dashboard">
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
@@ -43,7 +43,7 @@ export default function DashboardLayout({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/dashboard/managers"}>
-                  <Link href="/dashboard/managers">
+                  <Link className="pl-4" href="/dashboard/managers">
                     <Users className="mr-2 h-4 w-4" />
                     <span>Content Managers</span>
                   </Link>

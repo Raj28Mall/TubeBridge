@@ -1,22 +1,10 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarTrigger,
-  SidebarInset,
-} from "@/components/ui/sidebar"
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { Upload, LogOut } from "lucide-react"
 
@@ -41,13 +29,13 @@ export default function ContentManagerLayout({
       <div className="flex min-h-screen">
         <Sidebar>
           <SidebarHeader className="flex items-center px-4 py-2">
-            <h2 className="text-lg font-semibold">Content Manager</h2>
+            <h2 className="text-lg font-semibold py-3">Content Manager</h2>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/content-manager"}>
-                  <Link href="/content-manager">
+                  <Link className="pl-4" href="/content-manager">
                     <Upload className="mr-2 h-4 w-4" />
                     <span>Upload Video</span>
                   </Link>

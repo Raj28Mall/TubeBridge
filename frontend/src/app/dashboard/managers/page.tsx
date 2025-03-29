@@ -6,14 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { MoreHorizontal, UserX, Plus } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -68,7 +61,7 @@ export default function ContentManagersPage() {
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between w-[40vw]">
           <div>
             <CardTitle>Content Managers</CardTitle>
             <CardDescription>Manage your content managers</CardDescription>
@@ -80,38 +73,22 @@ export default function ContentManagersPage() {
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="">
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="pl-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="">
               {managers.map((manager) => (
-                <TableRow key={manager.id}>
+                <TableRow key={manager.id} className="">
                   <TableCell className="font-medium">{manager.name}</TableCell>
                   <TableCell>{manager.email}</TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Open menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setSelectedManager(manager)
-                            setIsRevokeDialogOpen(true)
-                          }}
-                          className="text-red-600"
-                        >
-                          <UserX className="mr-2 h-4 w-4" />
-                          Remove Manager
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                  <TableCell className="">
+                    <Button variant="ghost" className="text-red-600">
+                        <UserX className="mr-2 h-4 w-4" />
+                        Remove Manager
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,5 +1,6 @@
 "use client"
-import { useState } from "react"
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -90,19 +91,19 @@ export default function ContentManagerDashboard() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-8">
+    <div className="container mx-auto space-y-8">
       <h1 className="text-3xl font-bold">Content Manager Dashboard</h1>
 
       <Tabs defaultValue="upload">
         <TabsList>
-          <TabsTrigger value="upload">Upload New Video</TabsTrigger>
-          <TabsTrigger value="history">Upload History</TabsTrigger>
+          <TabsTrigger className="py-[6.5px] text-sm" value="upload">Upload New Video</TabsTrigger>
+          <TabsTrigger className="py-[6.5px] text-sm" value="history">Upload History</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="upload" className="mt-6">
-          <Card>
+        <TabsContent value="upload" className="mt-6 w-[79vw]">
+          <Card className='w-[75vw] mx-2'>
             <CardHeader>
-              <CardTitle>Upload New Video</CardTitle>
+              <CardTitle className='text-2xl'>Upload New Video</CardTitle>
               <CardDescription>Upload a new video for admin approval</CardDescription>
             </CardHeader>
             <CardContent>
@@ -112,7 +113,7 @@ export default function ContentManagerDashboard() {
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     <div className="mt-4">
                       <p className="text-sm font-medium">Drag and drop your video here, or click to browse</p>
-                      <p className="mt-1 text-xs text-muted-foreground">MP4 format only, maximum 500MB</p>
+                      <p className="mt-1 text-xs text-muted-foreground">MP4 format only</p>
                     </div>
                     <Button variant="outline" className="mt-4">
                       Select File
@@ -186,29 +187,29 @@ export default function ContentManagerDashboard() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="history" className="mt-6">
-          <Card>
+        <TabsContent value="history" className="mt-6 w-[79vw]">
+          <Card className='w-[65vw]'>
             <CardHeader>
-              <CardTitle>Upload History & Status</CardTitle>
+              <CardTitle className='text-2xl'>Upload History & Status</CardTitle>
               <CardDescription>Track the status of your video uploads</CardDescription>
             </CardHeader>
-            <CardContent>
-              <Table>
+            <CardContent className='px-8'>
+              <Table className=''>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Upload Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Comments</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className='text-muted-foreground'>Title</TableHead>
+                    <TableHead className='text-muted-foreground'>Upload Date</TableHead>
+                    <TableHead className='text-muted-foreground'>Status</TableHead>
+                    <TableHead className='text-muted-foreground'>Comments</TableHead>
+                    <TableHead className="text-right text-muted-foreground">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className=''>
                   {uploads.map((upload) => (
-                    <TableRow key={upload.id}>
-                      <TableCell className="font-medium">{upload.title}</TableCell>
-                      <TableCell>{upload.uploadDate}</TableCell>
-                      <TableCell>
+                    <TableRow key={upload.id} className=''>
+                      <TableCell className="font-sans h-16">{upload.title}</TableCell>
+                      <TableCell className=''>{upload.uploadDate}</TableCell>
+                      <TableCell className=''>
                         {upload.status === "Approved" && (
                           <Badge variant="outline" className="bg-green-50 text-green-700 hover:bg-green-50">
                             <CheckCircle className="mr-1 h-3 w-3" /> Approved
