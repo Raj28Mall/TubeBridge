@@ -5,53 +5,47 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 const BACKEND_URL = "http://127.0.0.1:5000";
 
 export default function AuthPage() {
-  const [selectedRole, setSelectedRole] = useState<string>("admin")
-  const router = useRouter()
+  const [selectedRole, setSelectedRole] = useState("admin");
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    /* Load Google Identity Services SDK */
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.onload = initializeGSI;
-    document.body.appendChild(script);
-  }, []);
-
-  const initializeGSI = () => {
-    google.accounts.id.initialize({
-      client_id: CLIENT_ID,
-      callback: handleCredentialResponse,
-    });
-  };
-  const handleCredentialResponse = async (response) => {
-    const authCode = response.credential;
-    console.log("Auth Code:", authCode);
-    
-    // Send auth code to Flask backend
-    const res = await fetch(`${BACKEND_URL}/auth/callback`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: authCode, role: selectedRole }),
-    });
-    const data = await res.json();
-    console.log("Backend Response:", data);
-
-    // Redirect based on role
-    if (selectedRole === "admin") {
-      router.push(`/dashboard`);
-    } else {
-      router.push(`/content-manager`);
+    const authCode = searchParams.get("code");
+    if (authCode) {
+      handleCredentialResponse(authCode);
     }
-  };
+  }, [searchParams]);
 
   const handleLogin = () => {
-    google.accounts.id.prompt();
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${BACKEND_URL}/auth/callback&response_type=code&scope=openid%20email%20profile&access_type=offline`;
+    window.location.href = authUrl;
+  };
+
+  const handleCredentialResponse = async (authCode) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/auth/callback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: authCode, role: selectedRole }),
+      });
+      const data = await res.json();
+      console.log("Backend Response:", data);
+      
+      if (selectedRole === "admin") {
+        router.push(`/dashboard`);
+      } else {
+        router.push(`/content-manager`);
+      }
+    } catch (error) {
+      console.error("Error exchanging auth code:", error);
+    }
   };
 
   return (

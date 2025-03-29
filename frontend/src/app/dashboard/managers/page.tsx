@@ -157,7 +157,7 @@ export default function ContentManagersPage() {
             <Button variant="outline" onClick={() => setIsAddManagerDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleAddManager}>Add Manager</Button>
+            <Button onClick={handleAddManager}>Send Request</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
