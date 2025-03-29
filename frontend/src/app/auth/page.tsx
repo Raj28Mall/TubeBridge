@@ -23,21 +23,21 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-0 my-0 font-sans">
+      <Card className="w-full max-w-md pb-6 pt-0">
         <Tabs defaultValue="signin" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 gap-x-2">
+            <TabsTrigger className="font-sans rounded-sm" value="signin">Sign In</TabsTrigger>
+            <TabsTrigger className="font-sans rounded-sm" value="signup">Sign Up</TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin">
             <CardHeader>
-              <CardTitle>Sign In</CardTitle>
+              <CardTitle className="text-2xl font-sans mt-4 pb-0 mb-0">Sign In</CardTitle>
               <CardDescription>Sign in to your account using Google OAuth</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <Button className="w-full" variant="outline" onClick={handleAuth}>
+            <CardContent className="space-y-4 pb-8 pt-4">
+              <Button className="w-full font-sans rounded-sm py-5" variant="outline" onClick={handleAuth}>
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -59,7 +59,7 @@ export default function AuthPage() {
                 Sign in with Google
               </Button>
 
-              <div className="mt-6">
+              <div className="mt-3">
                 <h3 className="mb-4 text-sm font-medium">Select Your Role</h3>
                 <RadioGroup
                   defaultValue="admin"
@@ -69,11 +69,11 @@ export default function AuthPage() {
                 >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="admin" id="admin" />
-                    <Label htmlFor="admin">Admin</Label>
+                    <Label className="font-sans" htmlFor="admin">Admin</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="content-manager" id="content-manager" />
-                    <Label htmlFor="content-manager">Content Manager</Label>
+                    <Label className="font-sans" htmlFor="content-manager">Content Manager</Label>
                   </div>
                 </RadioGroup>
               </div>
@@ -87,11 +87,11 @@ export default function AuthPage() {
 
           <TabsContent value="signup">
             <CardHeader>
-              <CardTitle>Sign Up</CardTitle>
+              <CardTitle className="text-2xl font-sans mt-4 pb-0 mb-0">Sign Up</CardTitle>
               <CardDescription>Create a new account using Google OAuth</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <Button className="w-full" variant="outline" onClick={handleAuth}>
+            <CardContent className="space-y-4 pb-8 pt-4">
+              <Button className="w-full font-sans rounded-sm py-5" variant="outline" onClick={handleAuth}>
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -110,10 +110,10 @@ export default function AuthPage() {
                     fill="#EA4335"
                   />
                 </svg>
-                Sign up with Google
+                Sign Up with Google
               </Button>
 
-              <div className="mt-6">
+              <div className="mt-3">
                 <h3 className="mb-4 text-sm font-medium">Select Your Role</h3>
                 <RadioGroup
                   defaultValue="admin"
@@ -122,12 +122,12 @@ export default function AuthPage() {
                   className="space-y-3"
                 >
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="admin" id="admin-signup" />
-                    <Label htmlFor="admin-signup">Admin</Label>
+                    <RadioGroupItem value="admin" id="admin" />
+                    <Label className="font-sans" htmlFor="admin">Admin</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="content-manager" id="content-manager-signup" />
-                    <Label htmlFor="content-manager-signup">Content Manager</Label>
+                    <RadioGroupItem value="content-manager" id="content-manager" />
+                    <Label className="font-sans" htmlFor="content-manager">Content Manager</Label>
                   </div>
                 </RadioGroup>
               </div>
