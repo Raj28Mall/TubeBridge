@@ -1,6 +1,5 @@
 "use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -8,19 +7,52 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 
+const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+const BACKEND_URL = "http://127.0.0.1:5000";
+
 export default function AuthPage() {
   const [selectedRole, setSelectedRole] = useState<string>("admin")
   const router = useRouter()
 
-  const handleAuth = () => {
-    // In a real app, this would handle the authentication
-    // For now, we'll just redirect to the dashboard
+  useEffect(() => {
+    /* Load Google Identity Services SDK */
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.onload = initializeGSI;
+    document.body.appendChild(script);
+  }, []);
+
+  const initializeGSI = () => {
+    google.accounts.id.initialize({
+      client_id: CLIENT_ID,
+      callback: handleCredentialResponse,
+    });
+  };
+  const handleCredentialResponse = async (response) => {
+    const authCode = response.credential;
+    console.log("Auth Code:", authCode);
+    
+    // Send auth code to Flask backend
+    const res = await fetch(`${BACKEND_URL}/auth/callback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: authCode, role: selectedRole }),
+    });
+    const data = await res.json();
+    console.log("Backend Response:", data);
+
+    // Redirect based on role
     if (selectedRole === "admin") {
-      router.push(`/dashboard`)
+      router.push(`/dashboard`);
     } else {
-      router.push(`/content-manager`)
+      router.push(`/content-manager`);
     }
-  }
+  };
+
+  const handleLogin = () => {
+    google.accounts.id.prompt();
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-0 my-0 font-sans">
@@ -37,7 +69,7 @@ export default function AuthPage() {
               <CardDescription>Sign in to your account using Google OAuth</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pb-8 pt-4">
-              <Button className="w-full font-sans rounded-sm py-5" variant="outline" onClick={handleAuth}>
+              <Button className="w-full font-sans rounded-sm py-5" variant="outline" onClick={handleLogin}>
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -79,7 +111,7 @@ export default function AuthPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleAuth}>
+              <Button className="w-full" onClick={handleLogin}>
                 Continue
               </Button>
             </CardFooter>
@@ -91,7 +123,7 @@ export default function AuthPage() {
               <CardDescription>Create a new account using Google OAuth</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pb-8 pt-4">
-              <Button className="w-full font-sans rounded-sm py-5" variant="outline" onClick={handleAuth}>
+              <Button className="w-full font-sans rounded-sm py-5" variant="outline" onClick={handleLogin}>
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -133,7 +165,7 @@ export default function AuthPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleAuth}>
+              <Button className="w-full" onClick={handleLogin}>
                 Create Account
               </Button>
             </CardFooter>

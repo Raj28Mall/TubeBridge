@@ -1,11 +1,12 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { FeatureCard } from "@/components/feature-card"
 import { PricingCard } from "@/components/pricing-card"
 import { ArrowRight, Upload, CheckCircle, Shield } from "lucide-react"
 
 export const metadata = {
-  title: "VideoPublish - Effortless YouTube Uploads",
+  title: "TubeBridge - Effortless YouTube Uploads",
   description: "Upload videos, review, approve, and publish – all in one place.",
 }
 
@@ -15,8 +16,8 @@ export default function LandingPage() {
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between px-10">
           <div className="flex items-center gap-2">
-            <Upload className="h-6 w-6" />
-            <span className="text-xl font-bold">VideoPublish</span>
+            <Image src="/logo.jpeg" alt="Logo" width={50} height={50}/>
+            <span className="text-xl font-bold">TubeBridge</span>
           </div>
           <nav className="flex items-center gap-6">
             <Link href="#features" className="text-sm font-medium hover:underline">
@@ -36,7 +37,7 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="relative overflow-hidden py-20 md:py-32">
+        <section className="relative overflow-hidden py-20 md:py-32 bg-slate-100">
           <div className="container relative z-10 mx-auto px-4 text-center">
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               Effortless YouTube Uploads
@@ -46,12 +47,12 @@ export default function LandingPage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="h-12 px-8">
-                <Link href="/auth">
+                <Link className="text-sans" href="/auth">
                   Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="h-12 px-8">
+              <Button variant="outline" size="lg" className="h-12 px-8 text-sans">
                 Learn More
               </Button>
             </div>
@@ -71,17 +72,17 @@ export default function LandingPage() {
 
             <div className="grid gap-8 md:grid-cols-3">
               <FeatureCard
-                icon={<Upload className="h-10 w-10 text-primary" />}
+                icon={<Upload className="h-10 w-10 text-blue-600" />}
                 title="Automate Uploads"
                 description="Schedule and upload videos without manual effort. Set it and forget it."
               />
               <FeatureCard
-                icon={<CheckCircle className="h-10 w-10 text-primary" />}
+                icon={<CheckCircle className="h-10 w-10 text-blue-600" />}
                 title="Approval Workflow"
                 description="Control what gets published on your channel with a robust review process."
               />
               <FeatureCard
-                icon={<Shield className="h-10 w-10 text-primary" />}
+                icon={<Shield className="h-10 w-10 text-blue-600" />}
                 title="Secure & Reliable"
                 description="Encrypted API communication ensures your content and account remain safe."
               />
@@ -100,7 +101,7 @@ export default function LandingPage() {
 
             <div className="grid gap-8 md:grid-cols-3">
               <div className="relative flex flex-col items-center rounded-lg bg-card p-6 text-center shadow-sm">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500 text-xl font-bold text-primary-foreground">
                   1
                 </div>
                 <h3 className="mt-4 text-xl font-bold">Upload</h3>
@@ -110,7 +111,7 @@ export default function LandingPage() {
               </div>
 
               <div className="relative flex flex-col items-center rounded-lg bg-card p-6 text-center shadow-sm">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500 text-xl font-bold text-primary-foreground">
                   2
                 </div>
                 <h3 className="mt-4 text-xl font-bold">Review</h3>
@@ -120,7 +121,7 @@ export default function LandingPage() {
               </div>
 
               <div className="relative flex flex-col items-center rounded-lg bg-card p-6 text-center shadow-sm">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500 text-xl font-bold text-primary-foreground">
                   3
                 </div>
                 <h3 className="mt-4 text-xl font-bold">Publish</h3>
@@ -177,7 +178,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="bg-primary py-20 text-primary-foreground">
+        <section className="bg-red-500 py-20 text-primary-foreground">
           <div className="container text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ready to Streamline Your YouTube Workflow?
@@ -186,21 +187,21 @@ export default function LandingPage() {
               Join thousands of content creators who are saving time and publishing better content.
             </p>
             <Button asChild size="lg" variant="secondary" className="mt-10 h-12 px-8">
-              <Link href="/auth">
+              <Link className="text-sans" href="/auth">
                 Get Started Today
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="h-4 w-4 mr-1" />
               </Link>
             </Button>
           </div>
         </section>
       </main>
 
-      <footer className="border-t my-8 mx-10">
+      <footer className="mt-6 mb-8 mx-10">
         <div className="container">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-            <div className="flex items-center gap-2">
-              <Upload className="h-5 w-5" />
-              <span className="text-lg font-bold">VideoPublish</span>
+            <div className="flex items-center gap-0">
+              <Image src="/logo.jpeg" alt="Logo" width={40} height={40} />
+              <span className="text-lg font-bold">TubeBridge</span>
             </div>
             <div className="flex gap-6 pl-30">
               <Link href="#" className="text-sm text-muted-foreground hover:text-foreground">
@@ -214,7 +215,7 @@ export default function LandingPage() {
               </Link>
             </div>
             <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} VideoPublish. All rights reserved.
+              © {new Date().getFullYear()} TubeBridge. All rights reserved.
             </div>
           </div>
         </div>
