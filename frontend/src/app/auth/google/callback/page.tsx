@@ -1,18 +1,18 @@
-// src/app/auth/google/callback/page.tsx
-"use client"; // Required for hooks like useEffect, useState, useSearchParams
-
+"use client"; 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useUserStore } from '@/store/userStore';
+import { set } from 'react-hook-form';
 
-// Define backend API endpoint URL - Make sure this matches your actual Flask route
-const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange"; // Or /api/auth/google/exchange
+const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange"; 
 
 export default function GoogleCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(true); // Start in processing state
-  const [selectedRole, setSelectedRole] = useState("admin"); // Default role
+  const [isProcessing, setIsProcessing] = useState(true); 
+  const [selectedRole, setSelectedRole] = useState("admin"); 
+  const setUser = useUserStore(state => state.setUser);
 
   // This function sends the code to your backend
   const handleCredentialResponse = async (authCode: string) => {
@@ -41,7 +41,7 @@ export default function GoogleCallbackPage() {
           if (!res.ok) {
               throw new Error(data.error || `Backend error: ${res.status}`);
           }
-
+          setUser(data.user);
           console.log("Backend Response:", data);
 
           // --- SUCCESS ---
@@ -50,12 +50,7 @@ export default function GoogleCallbackPage() {
 
           // Redirect to appropriate page based on backend response or stored role
           // This logic might need refinement based on what your backend returns
-          const userRole = data.user?.assigned_role || 'user'; // Example: get role from backend response
-          if (userRole === "admin") {
-              router.push(`/dashboard`);
-          } else {
-              router.push(`/content-manager`);
-          }
+          router.push("/landing");
           // No need to setIsProcessing(false) here as we are redirecting
 
       } catch (err: any) {

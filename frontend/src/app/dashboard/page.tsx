@@ -11,11 +11,11 @@ import { useState, useEffect } from 'react';
 
 // Mock data for recent activities
 const recentActivities = [
-  { id: 1, user: "John Doe", action: "Uploaded video", timestamp: "2 minutes ago", status: "success" },
-  { id: 2, user: "Jane Smith", action: "Uploaded video", timestamp: "1 hour ago", status: "success" },
-  { id: 3, user: "You", action: "Approved content", timestamp: "3 hours ago", status: "success" },
-  { id: 4, user: "Sarah Williams", action: "Edited video", timestamp: "Yesterday", status: "warning" },
-  { id: 5, user: "You", action: "Rejected video", timestamp: "Yesterday", status: "error" },
+  { id: 1, name: "John Doe", action: "Uploaded video", timestamp: "2 minutes ago", status: "success" },
+  { id: 2, name: "Jane Smith", action: "Uploaded video", timestamp: "1 hour ago", status: "success" },
+  { id: 3, name: "You", action: "Approved content", timestamp: "3 hours ago", status: "success" },
+  { id: 4, name: "Sarah Williams", action: "Edited video", timestamp: "Yesterday", status: "warning" },
+  { id: 5, name: "You", action: "Rejected video", timestamp: "Yesterday", status: "error" },
 ]
 
 // Mock data for pending approvals
@@ -77,8 +77,8 @@ export default function Dashboard() {
                   <TableBody>
                     {pendingApprovals.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell className=" h-14">{item.title}</TableCell>
-                        <TableCell className="">{item.submitter}</TableCell>
+                        <TableCell className="h-14 truncate max-w-[300px]">{item.title}</TableCell>
+                        <TableCell className="truncate max-w-[200px]">{item.submitter}</TableCell>
                         <TableCell className="">{item.submitted}</TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm">
@@ -121,7 +121,7 @@ export default function Dashboard() {
                 <TableBody>
                   {recentActivities.map((activity) => (
                     <TableRow key={activity.id}>
-                      <TableCell className=" h-14">{activity.user}</TableCell>
+                      <TableCell className=" h-14">{activity.name}</TableCell>
                       <TableCell className="">{activity.action}</TableCell>
                       <TableCell className="">{activity.timestamp}</TableCell>
                       <TableCell>

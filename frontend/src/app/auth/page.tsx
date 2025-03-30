@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useUserStore } from "@/store/userStore"
 
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -14,6 +15,7 @@ const REDIRECT_URI = `${FRONTEND_URL}/auth/google/callback`;
 const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange";
 
 export default function AuthPage() {  
+  const setUser = useUserStore(state => state.setUser);
   const [selectedRole, setSelectedRole] = useState("admin");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -53,11 +55,7 @@ export default function AuthPage() {
       }
 
       console.log(`Login successful for role: ${roleToSend}`);
-      if (roleToSend === "admin") {
-        router.push(`/dashboard`);
-      } else {
-        router.push(`/content-manager`);
-      }
+      router.push('/');
 
     } catch (error) {
       console.error("Error exchanging auth code:", error);

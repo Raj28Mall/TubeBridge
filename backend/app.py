@@ -130,7 +130,7 @@ def google_exchange_code():
                         "email": user_email,
                         "name": user_name,
                         "picture": user_picture,
-                        "assigned_role": final_user_role # Send the role determined by the backend
+                        "role": final_user_role # Send the role determined by the backend
                     },
                     # If using JWTs, include it in the response:
                     # "token": app_jwt

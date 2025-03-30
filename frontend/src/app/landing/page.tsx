@@ -1,16 +1,16 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { FeatureCard } from "@/components/feature-card"
-import { PricingCard } from "@/components/pricing-card"
-import { ArrowRight, Upload, CheckCircle, Shield } from "lucide-react"
-
-export const metadata = {
-  title: "TubeBridge - Effortless YouTube Uploads",
-  description: "Upload videos, review, approve, and publish – all in one place.",
-}
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { FeatureCard } from "@/components/feature-card";
+import { PricingCard } from "@/components/pricing-card";
+import { ArrowRight, Upload, CheckCircle, Shield } from "lucide-react";
+import { useUserStore } from "@/store/userStore";
 
 export default function LandingPage() {
+  const user = useUserStore(state => state.user);
+  console.log("This is in landing page: ", user);
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -47,8 +47,8 @@ export default function LandingPage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="h-12 px-8">
-                <Link className="text-sans" href="/auth">
-                  Get Started
+                <Link className="text-sans" href={!user?"/auth": user.role==='admin'?'/dashboard':'/content-manager'}>
+                  {user? "Dashboard":"Get Started"}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
