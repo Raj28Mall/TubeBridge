@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
-import { set } from 'react-hook-form';
 import { useRoleStore } from '@/store/roleStore';
 
 const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange"; 
@@ -25,16 +24,17 @@ export default function GoogleCallbackPage() {
       // If sending the role from frontend is critical, you'll need to persist it across the redirect.
       // Let's simplify and assume the backend handles role assignment or uses a default for now.
       // const roleToSend = localStorage.getItem('selectedRole') || 'user'; // Example using localStorage
-      setError(null); // Clear previous errors
+      const currentRole = useRoleStore.getState().role;
+      setError(null); 
 
       try {
           const res = await fetch(BACKEND_API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               // You might need to adjust what data you send based on your backend needs
-              body: JSON.stringify({ code: authCode , role: role }),
+              body: JSON.stringify({ code: authCode , role: currentRole }),
           });
-          console.log("This is in callback: ",role);
+          console.log("This is in callback: ", currentRole);
           const data = await res.json(); // Always parse JSON to check for backend errors
 
           if (!res.ok) {

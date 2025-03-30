@@ -68,7 +68,7 @@ export default function AuthPage() {
               <div className="mt-3">
                 <h3 className="mb-4 text-sm font-medium">Select Your Role</h3>
                 <RadioGroup
-                  defaultValue="content-manager"
+                  defaultValue="admin"
                   value={role}
                   onValueChange={setRole}
                   className="space-y-3"
