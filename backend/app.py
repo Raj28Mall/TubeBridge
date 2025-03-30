@@ -42,7 +42,7 @@ def google_exchange_code():
                 return jsonify({"error": "Invalid JSON payload"}), 400
 
             auth_code = data.get("code")
-            role_from_frontend = data.get("role") or "wrongrole1" # ADMIN DEFAULT ROLE FOR TESTING
+            role_from_frontend = data.get("role")
 
             if not auth_code:
                 return jsonify({"error": "Missing authorization code in request body"}), 400
@@ -97,7 +97,8 @@ def google_exchange_code():
                         {"google_id": user_google_id},
                         {"$set": update_data}
                     )
-                    final_user_role = user_data.get("role", "wrongrole2")
+                    final_user_role = user_data.get("role")
+                    print("This is final user role in backend: ", final_user_role)
                     user_id_in_db = str(user_data["_id"])
                 else:
                     new_user = {

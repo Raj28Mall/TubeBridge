@@ -9,8 +9,7 @@ import { useUserStore } from "@/store/userStore";
 
 export default function LandingPage() {
   const user = useUserStore(state => state.user);
-  console.log("This is in landing page: ", user);
-
+  
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

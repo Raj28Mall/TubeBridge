@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import { set } from 'react-hook-form';
+import { useRoleStore } from '@/store/roleStore';
 
 const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange"; 
 
@@ -11,7 +12,7 @@ export default function GoogleCallbackPage() {
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(true); 
-  const [selectedRole, setSelectedRole] = useState("admin"); 
+  const role= useRoleStore(state => state.role);
   const setUser = useUserStore(state => state.setUser);
 
   // This function sends the code to your backend
@@ -24,8 +25,6 @@ export default function GoogleCallbackPage() {
       // If sending the role from frontend is critical, you'll need to persist it across the redirect.
       // Let's simplify and assume the backend handles role assignment or uses a default for now.
       // const roleToSend = localStorage.getItem('selectedRole') || 'user'; // Example using localStorage
-
-      console.log(`Sending code: ${authCode} to backend...`);
       setError(null); // Clear previous errors
 
       try {
@@ -33,17 +32,15 @@ export default function GoogleCallbackPage() {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               // You might need to adjust what data you send based on your backend needs
-              body: JSON.stringify({ code: authCode , role: selectedRole }),
+              body: JSON.stringify({ code: authCode , role: role }),
           });
-
+          console.log("This is in callback: ",role);
           const data = await res.json(); // Always parse JSON to check for backend errors
 
           if (!res.ok) {
               throw new Error(data.error || `Backend error: ${res.status}`);
           }
           setUser(data.user);
-          console.log("Backend Response:", data);
-
           // --- SUCCESS ---
           // TODO: Store session token/user data received from backend (if any)
           // localStorage.setItem('authToken', data.token);

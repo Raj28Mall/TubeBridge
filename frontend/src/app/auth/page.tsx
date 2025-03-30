@@ -5,31 +5,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useUserStore } from "@/store/userStore"
+import { useRoleStore } from "@/store/roleStore"
 
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 const FRONTEND_URL = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
 const REDIRECT_URI = `${FRONTEND_URL}/auth/google/callback`;
-const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange";
 
 export default function AuthPage() {  
-  const setUser = useUserStore(state => state.setUser);
-  const [selectedRole, setSelectedRole] = useState("admin");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    // This component might be rendered *on* /auth/google/callback
-    // The effect will run when the component mounts after the redirect
-    const authCode = searchParams.get("code");
-    if (authCode) {
-      // Optionally, clear the code from the URL after processing
-      // router.replace('/auth/google/callback', undefined, { shallow: true });
-      handleCredentialResponse(authCode);
-    }
-  }, [searchParams, router]); // Add router to dependencies if used inside
+  const role = useRoleStore(state => state.role);
+  const setRole = useRoleStore(state => state.setRole);
+  console.log("This is in auth: ", role);
 
   const handleLogin = () => {
     const scope = "openid email profile";
@@ -37,29 +23,9 @@ export default function AuthPage() {
     window.location.href = authUrl;
   };
 
-  const handleCredentialResponse = async (authCode) => {
-    // Get role from state *at the time of the call*
-    const roleToSend = selectedRole;
-    console.log(`Sending code: ${authCode} and role: ${roleToSend} to backend...`);
-    try {
-      const res = await fetch(BACKEND_API_URL, { // Use the new backend API endpoint
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: authCode, role: roleToSend }),
-      });
-      const data = await res.json();
-      console.log("Backend Response:", data);
-
-      if (!res.ok) {
-          throw new Error(data.error || `HTTP error! status: ${res.status}`);
-      }
-
-      console.log(`Login successful for role: ${roleToSend}`);
-      router.push('/');
-
-    } catch (error) {
-      console.error("Error exchanging auth code:", error);
-    }
+  const handleRoleChange = (inputRole: string) => {
+    console.log(inputRole);
+    setRole(inputRole as "admin" | "content-manager");
   };
 
   return (
@@ -102,9 +68,9 @@ export default function AuthPage() {
               <div className="mt-3">
                 <h3 className="mb-4 text-sm font-medium">Select Your Role</h3>
                 <RadioGroup
-                  defaultValue="admin"
-                  value={selectedRole}
-                  onValueChange={setSelectedRole}
+                  defaultValue="content-manager"
+                  value={role}
+                  onValueChange={setRole}
                   className="space-y-3"
                 >
                   <div className="flex items-center space-x-2">
@@ -157,8 +123,8 @@ export default function AuthPage() {
                 <h3 className="mb-4 text-sm font-medium">Select Your Role</h3>
                 <RadioGroup
                   defaultValue="admin"
-                  value={selectedRole}
-                  onValueChange={setSelectedRole}
+                  value={role}
+                  onValueChange={handleRoleChange}
                   className="space-y-3"
                 >
                   <div className="flex items-center space-x-2">
