@@ -1,12 +1,12 @@
-"use client"
-
-import type React from "react"
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Users, LogOut } from "lucide-react"
+"use client";
+import type React from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { LayoutDashboard, Users, LogOut } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -21,15 +21,18 @@ export default function DashboardLayout({
   }, [])
 
   if (!isMounted) {
-    return null
+    return null;
   }
 
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar>
-          <SidebarHeader className="flex items-center px-4 py-5">
-            <h2 className="text-lg font-semibold">Admin Dashboard</h2>
+          <SidebarHeader className="px-4 py-[10px]">
+            <Link href='/' className="flex flex-row items-center">
+            <Image className="p-0 m-0" src="/logo.jpeg" alt="Logo" width={50} height={50}/>
+            <span className="text-xl font-bold">TubeBridge</span>
+            </Link>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
@@ -69,6 +72,6 @@ export default function DashboardLayout({
         </SidebarInset>
       </div>
     </SidebarProvider>
-  )
+  );
 }
 

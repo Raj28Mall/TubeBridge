@@ -17,8 +17,10 @@ export default function LandingPage() {
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between px-10">
           <div className="flex items-center gap-2">
+            <Link href='/' className="flex items-center gap-2">
             <Image src="/logo.jpeg" alt="Logo" width={50} height={50}/>
             <span className="text-xl font-bold">TubeBridge</span>
+            </Link>
           </div>
           <nav className="flex items-center gap-6">
             <Link href="#features" className="text-sm font-medium hover:underline">

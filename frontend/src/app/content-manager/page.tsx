@@ -21,7 +21,7 @@ const initialUploads = [
     tags: "product, demo, features",
     uploadDate: "2023-03-28",
     status: "Approved",
-    comments: "",
+    feedback: "",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const initialUploads = [
     tags: "culture, company, team",
     uploadDate: "2023-03-25",
     status: "Rejected",
-    comments: "Please add more team interviews and improve audio quality.",
+    feedback: "Please add more team interviews and improve audio quality.",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const initialUploads = [
     tags: "tutorial, beginner, guide",
     uploadDate: "2023-03-20",
     status: "Pending",
-    comments: "",
+    feedback: "",
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ const initialUploads = [
     tags: "results, announcement, financial",
     uploadDate: "2023-03-15",
     status: "Scheduled",
-    comments: "Scheduled for April 1st, 2023",
+    feedback: "Scheduled for April 1st, 2023",
   },
 ]
 
@@ -80,7 +80,7 @@ export default function ContentManagerDashboard() {
       tags: data.tags,
       uploadDate: new Date().toISOString().split("T")[0],
       status: "Pending",
-      comments: "",
+      feedback: "",
     }
 
     setUploads([newUpload, ...uploads])
@@ -200,7 +200,7 @@ export default function ContentManagerDashboard() {
                     <TableHead className='text-muted-foreground'>Title</TableHead>
                     <TableHead className='text-muted-foreground'>Upload Date</TableHead>
                     <TableHead className='text-muted-foreground'>Status</TableHead>
-                    <TableHead className='text-muted-foreground'>Comments</TableHead>
+                    <TableHead className='text-muted-foreground'>Feedback</TableHead>
                     <TableHead className="text-right text-muted-foreground">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -231,7 +231,7 @@ export default function ContentManagerDashboard() {
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="max-w-[200px] truncate">{upload.comments || "—"}</TableCell>
+                      <TableCell className="max-w-[200px] truncate">{upload.feedback || "—"}</TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>

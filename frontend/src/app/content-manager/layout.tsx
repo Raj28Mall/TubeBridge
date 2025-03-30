@@ -1,12 +1,12 @@
-"use client"
-
-import type React from "react"
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar"
-import { Button } from "@/components/ui/button"
-import { Upload, LogOut } from "lucide-react"
+"use client";
+import type React from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { Upload, LogOut } from "lucide-react";
 
 export default function ContentManagerLayout({
   children,
@@ -28,8 +28,11 @@ export default function ContentManagerLayout({
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar>
-          <SidebarHeader className="flex items-center px-4 py-2">
-            <h2 className="text-lg font-semibold py-3">Content Manager</h2>
+        <SidebarHeader className="px-4 py-[10px]">
+            <Link href='/' className="flex flex-row items-center">
+            <Image className="p-0 m-0" src="/logo.jpeg" alt="Logo" width={50} height={50}/>
+            <span className="text-xl font-bold">TubeBridge</span>
+            </Link>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
