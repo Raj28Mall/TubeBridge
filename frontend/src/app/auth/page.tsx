@@ -9,40 +9,56 @@ import { useRouter, useSearchParams } from "next/navigation"
 
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-const BACKEND_URL = "http://127.0.0.1:5000";
+const FRONTEND_URL = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+const REDIRECT_URI = `${FRONTEND_URL}/auth/google/callback`;
+const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange";
 
-export default function AuthPage() {
+export default function AuthPage() {  
   const [selectedRole, setSelectedRole] = useState("admin");
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    // This component might be rendered *on* /auth/google/callback
+    // The effect will run when the component mounts after the redirect
     const authCode = searchParams.get("code");
     if (authCode) {
+      // Optionally, clear the code from the URL after processing
+      // router.replace('/auth/google/callback', undefined, { shallow: true });
       handleCredentialResponse(authCode);
     }
-  }, [searchParams]);
+  }, [searchParams, router]); // Add router to dependencies if used inside
 
   const handleLogin = () => {
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${BACKEND_URL}/auth/callback&response_type=code&scope=openid%20email%20profile&access_type=offline`;
+    const scope = "openid email profile";
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline&prompt=consent`; // Added prompt=consent for refresh token
     window.location.href = authUrl;
   };
 
   const handleCredentialResponse = async (authCode) => {
+    // Get role from state *at the time of the call*
+    const roleToSend = selectedRole;
+    console.log(`Sending code: ${authCode} and role: ${roleToSend} to backend...`);
     try {
-      const res = await fetch(`${BACKEND_URL}/auth/callback`, {
+      const res = await fetch(BACKEND_API_URL, { // Use the new backend API endpoint
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: authCode, role: selectedRole }),
+        body: JSON.stringify({ code: authCode, role: roleToSend }),
       });
       const data = await res.json();
       console.log("Backend Response:", data);
-      
-      if (selectedRole === "admin") {
+
+      if (!res.ok) {
+          throw new Error(data.error || `HTTP error! status: ${res.status}`);
+      }
+
+      console.log(`Login successful for role: ${roleToSend}`);
+      if (roleToSend === "admin") {
         router.push(`/dashboard`);
       } else {
         router.push(`/content-manager`);
       }
+
     } catch (error) {
       console.error("Error exchanging auth code:", error);
     }
