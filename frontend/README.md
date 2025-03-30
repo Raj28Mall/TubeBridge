@@ -1,0 +1,3 @@
+1. Pending approvals -> add tick button -> Tick button shows popup with showing thumbnail and metadata and scheduled late (with option for admin to edit any of the metadata etc) if any and a confirm button and a cancel button
+2. Pending approvals -> add reject button -> Shows popup showing thumbnail and metadata and schedule time and asks confirm cancel and a small message box to give reason/feedback to the content manager who submitted that video
+3. 

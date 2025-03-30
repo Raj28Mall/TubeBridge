@@ -11,11 +11,11 @@ import { useState, useEffect } from 'react';
 
 // Mock data for recent activities
 const recentActivities = [
-  { id: 1, user: "John Doe", action: "Logged in", timestamp: "2 minutes ago", status: "success" },
+  { id: 1, user: "John Doe", action: "Uploaded video", timestamp: "2 minutes ago", status: "success" },
   { id: 2, user: "Jane Smith", action: "Uploaded video", timestamp: "1 hour ago", status: "success" },
-  { id: 3, user: "Mike Johnson", action: "Approved content", timestamp: "3 hours ago", status: "success" },
-  { id: 4, user: "Sarah Williams", action: "Changed permissions", timestamp: "Yesterday", status: "warning" },
-  { id: 5, user: "David Brown", action: "Rejected video", timestamp: "Yesterday", status: "error" },
+  { id: 3, user: "You", action: "Approved content", timestamp: "3 hours ago", status: "success" },
+  { id: 4, user: "Sarah Williams", action: "Edited video", timestamp: "Yesterday", status: "warning" },
+  { id: 5, user: "You", action: "Rejected video", timestamp: "Yesterday", status: "error" },
 ]
 
 // Mock data for pending approvals
@@ -33,53 +33,53 @@ export default function Dashboard() {
       <div className="grid gap-6 md:grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]">
         <Card>
           <CardHeader className="">
-            <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
+            <CardTitle className="text-sm ">Pending Approvals</CardTitle>
           </CardHeader>
           <CardContent className="-my-3">
             <div className="text-2xl font-bold pb-3">7</div>
-            <p className="text-xs text-muted-foreground">+3 since yesterday</p>
+            <p className="text-xs text-muted-foreground ">+3 since yesterday</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="-pb-6">
-            <CardTitle className="text-sm font-medium">Content Approved (This Week)</CardTitle>
+            <CardTitle className="text-sm ">Content Approved (This Week)</CardTitle>
           </CardHeader>
           <CardContent className="-my-3">
             <div className="text-2xl font-bold pb-3">24</div>
-            <p className="text-xs text-muted-foreground">+5 from last week</p>
+            <p className="text-xs text-muted-foreground ">+5 from last week</p>
           </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="approvals">
         <TabsList>
-          <TabsTrigger value="approvals">Pending Approvals</TabsTrigger>
-          <TabsTrigger value="activity">Recent Activity</TabsTrigger>
+          <TabsTrigger className="" value="approvals">Pending Approvals</TabsTrigger>
+          <TabsTrigger className="" value="activity">Recent Activity</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="approvals" className="mt-6">
+        <TabsContent value="approvals" className="mt-6 w-[65vw]">
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl">Pending Approvals</CardTitle>
-              <CardDescription>Content waiting for your review</CardDescription>
+              <CardTitle className="text-2xl ">Pending Approvals</CardTitle>
+              <CardDescription className="">Content waiting for your review</CardDescription>
             </CardHeader>
             <CardContent>
               {pendingApprovals.length > 0 ? (
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="font-bold text-lg">Title</TableHead>
-                      <TableHead className="font-bold text-lg">Submitter</TableHead>
-                      <TableHead className="font-bold text-lg">Submitted</TableHead>
-                      <TableHead className="font-bold text-lg">Actions</TableHead>
+                      <TableHead className="text-muted-foreground">Title</TableHead>
+                      <TableHead className="text-muted-foreground">Submitter</TableHead>
+                      <TableHead className="text-muted-foreground">Submitted</TableHead>
+                      <TableHead className="text-muted-foreground pl-5">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {pendingApprovals.map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell className="font-medium">{item.title}</TableCell>
-                        <TableCell>{item.submitter}</TableCell>
-                        <TableCell>{item.submitted}</TableCell>
+                        <TableCell className=" h-14">{item.title}</TableCell>
+                        <TableCell className="">{item.submitter}</TableCell>
+                        <TableCell className="">{item.submitted}</TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm">
                             <Eye className="mr-1 h-4 w-4" /> Review
@@ -102,28 +102,28 @@ export default function Dashboard() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="activity" className="mt-6">
+        <TabsContent value="activity" className="mt-6 w-[65vw]">
           <Card>
             <CardHeader>
-              <CardTitle>Activity Log</CardTitle>
-              <CardDescription>Recent actions performed in the system</CardDescription>
+              <CardTitle className="text-2xl ">Activity Log</CardTitle>
+              <CardDescription className="">Recent actions performed in the system</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Action</TableHead>
-                    <TableHead>Time</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-muted-foreground">User</TableHead>
+                    <TableHead className="text-muted-foreground">Action</TableHead>
+                    <TableHead className="text-muted-foreground">Time</TableHead>
+                    <TableHead className="text-muted-foreground">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {recentActivities.map((activity) => (
                     <TableRow key={activity.id}>
-                      <TableCell className="font-medium">{activity.user}</TableCell>
-                      <TableCell>{activity.action}</TableCell>
-                      <TableCell>{activity.timestamp}</TableCell>
+                      <TableCell className=" h-14">{activity.user}</TableCell>
+                      <TableCell className="">{activity.action}</TableCell>
+                      <TableCell className="">{activity.timestamp}</TableCell>
                       <TableCell>
                         {activity.status === "success" && (
                           <Badge variant="outline" className="bg-green-50 text-green-700 hover:bg-green-50">

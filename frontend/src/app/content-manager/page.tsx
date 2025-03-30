@@ -103,8 +103,8 @@ export default function ContentManagerDashboard() {
         <TabsContent value="upload" className="mt-6 w-[79vw]">
           <Card className='w-[75vw] mx-2'>
             <CardHeader>
-              <CardTitle className='text-2xl'>Upload New Video</CardTitle>
-              <CardDescription>Upload a new video for admin approval</CardDescription>
+              <CardTitle className='text-2xl '>Upload New Video</CardTitle>
+              <CardDescription className=''>Upload a new video for admin approval</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -190,8 +190,8 @@ export default function ContentManagerDashboard() {
         <TabsContent value="history" className="mt-6 w-[79vw]">
           <Card className='w-[65vw]'>
             <CardHeader>
-              <CardTitle className='text-2xl'>Upload History & Status</CardTitle>
-              <CardDescription>Track the status of your video uploads</CardDescription>
+              <CardTitle className='text-2xl '>Upload History & Status</CardTitle>
+              <CardDescription className=' '>Track the status of your video uploads</CardDescription>
             </CardHeader>
             <CardContent className='px-8'>
               <Table className=''>
@@ -207,7 +207,7 @@ export default function ContentManagerDashboard() {
                 <TableBody className=''>
                   {uploads.map((upload) => (
                     <TableRow key={upload.id} className=''>
-                      <TableCell className="font-sans h-16">{upload.title}</TableCell>
+                      <TableCell className=" h-16">{upload.title}</TableCell>
                       <TableCell className=''>{upload.uploadDate}</TableCell>
                       <TableCell className=''>
                         {upload.status === "Approved" && (
