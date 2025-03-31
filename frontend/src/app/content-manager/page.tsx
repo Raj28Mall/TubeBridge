@@ -101,7 +101,7 @@ export default function ContentManagerDashboard() {
         </TabsList>
 
         <TabsContent value="upload" className="mt-6 w-[79vw]">
-          <Card className='w-[75vw] mx-2'>
+          <Card className='w-[65vw] mx-2'>
             <CardHeader>
               <CardTitle className='text-2xl '>Upload New Video</CardTitle>
               <CardDescription className=''>Upload a new video for admin approval</CardDescription>
@@ -109,15 +109,28 @@ export default function ContentManagerDashboard() {
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <div className="mt-4">
-                      <p className="text-sm font-medium">Drag and drop your video here, or click to browse</p>
-                      <p className="mt-1 text-xs text-muted-foreground">MP4 format only</p>
+                  <div className="flex flex-row items-center justify-center space-x-15">
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center w-[400px] h-[250px]">
+                      <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                      <div className="mt-4">
+                        <p className="text-sm font-medium">Drag and drop your video here, or click here to browse</p>
+                        <p className="mt-1 text-xs text-muted-foreground">MP4 format only</p>
+                      </div>
+                      <Button variant="outline" className="mt-4">
+                        Select File
+                      </Button>
                     </div>
-                    <Button variant="outline" className="mt-4">
-                      Select File
-                    </Button>
+
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center w-[400px] h-[250px]">
+                      <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                      <div className="mt-4">
+                        <p className="text-sm font-medium">Drag and drop your thumbnail here, or click here to browse</p>
+                        <p className="mt-1 text-xs text-muted-foreground">Image format only</p>
+                      </div>
+                      <Button variant="outline" className="mt-4">
+                        Select File
+                      </Button>
+                    </div>
                   </div>
 
                   <FormField

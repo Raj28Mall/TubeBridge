@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { CheckCircle, Clock, AlertCircle, Eye, Check, X } from "lucide-react"
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import Image from "next/image";
 
 
 // Mock data for recent activities
@@ -237,7 +238,8 @@ export default function Dashboard() {
           <div className="grid gap-6 py-4">
             {/* Video Thumbnail Placeholder */}
             <div className="aspect-video bg-slate-100 flex items-center justify-center rounded-md">
-              <p className="text-slate-400">Video Preview</p>
+            <Image className="p-0 m-0" src="/dummy_thumbnail.jpg" alt="Logo" width={1920} height={1080}/>
+              {/* <p className="text-slate-400">Video Preview</p> */}
             </div>
 
             <div className="grid gap-4">
@@ -296,7 +298,8 @@ export default function Dashboard() {
           <div className="grid gap-6 py-4">
             {/* Video Thumbnail Placeholder */}
             <div className="aspect-video bg-slate-100 flex items-center justify-center rounded-md">
-              <p className="text-slate-400">Video Preview</p>
+              <Image className="p-0 m-0" src="/dummy_thumbnail.jpg" alt="Logo" width={1920} height={1080}/>
+              {/* <p className="text-slate-400">Video Preview</p> */}
             </div>
 
             <div className="grid gap-2">

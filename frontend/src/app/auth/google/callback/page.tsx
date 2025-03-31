@@ -11,19 +11,9 @@ export default function GoogleCallbackPage() {
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(true); 
-  const role= useRoleStore(state => state.role);
   const setUser = useUserStore(state => state.setUser);
 
-  // This function sends the code to your backend
   const handleCredentialResponse = async (authCode: string) => {
-      // Note: We don't have access to the 'selectedRole' state from the original login page here.
-      // You might need to:
-      // 1. Store the selected role temporarily (e.g., localStorage) before redirecting to Google.
-      // 2. Or, perhaps the role is determined *after* login based on backend data.
-      // For now, let's assume the backend assigns a default or fetched role.
-      // If sending the role from frontend is critical, you'll need to persist it across the redirect.
-      // Let's simplify and assume the backend handles role assignment or uses a default for now.
-      // const roleToSend = localStorage.getItem('selectedRole') || 'user'; // Example using localStorage
       const currentRole = useRoleStore.getState().role;
       setError(null); 
 
@@ -31,11 +21,10 @@ export default function GoogleCallbackPage() {
           const res = await fetch(BACKEND_API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              // You might need to adjust what data you send based on your backend needs
               body: JSON.stringify({ code: authCode , role: currentRole }),
           });
           console.log("This is in callback: ", currentRole);
-          const data = await res.json(); // Always parse JSON to check for backend errors
+          const data = await res.json();
 
           if (!res.ok) {
               throw new Error(data.error || `Backend error: ${res.status}`);
@@ -48,7 +37,6 @@ export default function GoogleCallbackPage() {
           // Redirect to appropriate page based on backend response or stored role
           // This logic might need refinement based on what your backend returns
           router.push("/landing");
-          // No need to setIsProcessing(false) here as we are redirecting
 
       } catch (err: any) {
           console.error("Error exchanging auth code:", err);
@@ -76,7 +64,6 @@ export default function GoogleCallbackPage() {
   }, [searchParams]); // Rerun effect if searchParams change
 
 
-  // Display loading or error state
   return (
       <div>
           <h1>Processing Google Login...</h1>
