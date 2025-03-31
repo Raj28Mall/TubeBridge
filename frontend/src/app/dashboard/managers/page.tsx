@@ -9,6 +9,7 @@ import { MoreHorizontal, UserX, Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "react-hot-toast";
 
 // Mock data for content managers
 const initialManagers = [
@@ -16,23 +17,19 @@ const initialManagers = [
     id: 1,
     name: "John Doe",
     email: "john.doe@example.com",
-  },
-  {
+  },{
     id: 2,
     name: "Jane Smith",
     email: "jane.smith@example.com",
-  },
-  {
+  },  {
     id: 3,
     name: "Mike Johnson",
     email: "mike.johnson@example.com",
-  },
-  {
+  },  {
     id: 4,
     name: "Sarah Williams",
     email: "sarah.williams@example.com",
-  },
-  {
+  },  {
     id: 5,
     name: "David Brown",
     email: "david.brown@example.com",
@@ -47,15 +44,28 @@ export default function ContentManagersPage() {
   const [newManager, setNewManager] = useState({ name: "", email: "" });
 
   const handleRevokeAccess = () => {
-    setManagers(managers.filter((manager) => manager.id !== selectedManager.id))
-    setIsRevokeDialogOpen(false)
+    setManagers(managers.filter((manager) => manager.id !== selectedManager.id));
+    setIsRevokeDialogOpen(false);
+    setSelectedManager(null);
   }
 
   const handleAddManager = () => {
-    const newId = Math.max(...managers.map((m) => m.id)) + 1
-    setManagers([...managers, { id: newId, ...newManager }])
-    setNewManager({ name: "", email: "" })
-    setIsAddManagerDialogOpen(false)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(newManager.name === "" || newManager.email === "") {
+      setIsAddManagerDialogOpen(false);
+      toast.error("Please fill in all fields");
+      return;
+    }
+    else if(emailRegex.test(newManager.email) === false) {
+      setIsAddManagerDialogOpen(false);
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    const newId = Math.max(...managers.map((m) => m.id)) + 1;
+    setManagers([...managers, { id: newId, ...newManager }]);
+    setNewManager({ name: "", email: "" });
+    setIsAddManagerDialogOpen(false);
+    toast.success("Invite sent successfully! They will have access once they accept");
   }
 
   return (
@@ -93,7 +103,7 @@ export default function ContentManagersPage() {
                     </Link>
                   </TableCell>
                   <TableCell className="">
-                    <Button variant="ghost" className="text-red-600">
+                    <Button variant="ghost" className="text-red-600" onClick={()=>{setSelectedManager(manager); setIsRevokeDialogOpen(true);}}>
                         <UserX className="mr-1 h-4 w-4" />
                         Remove
                     </Button>
@@ -140,6 +150,7 @@ export default function ContentManagersPage() {
                 value={newManager.name}
                 onChange={(e) => setNewManager({ ...newManager, name: e.target.value })}
                 placeholder="Enter name"
+                required
               />
             </div>
             <div className="grid gap-2">
@@ -150,6 +161,7 @@ export default function ContentManagersPage() {
                 value={newManager.email}
                 onChange={(e) => setNewManager({ ...newManager, email: e.target.value })}
                 placeholder="Enter email"
+                required
               />
             </div>
           </div>

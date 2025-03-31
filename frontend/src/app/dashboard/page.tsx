@@ -43,7 +43,6 @@ export default function Dashboard() {
   const [rejectionFeedback, setRejectionFeedback] = useState("");
 
   const handleApproveClick = (item: any) => {
-    setSelectedItem(item)
     setEditedMetadata({
       title: item.title,
       description: item.description,
@@ -53,7 +52,6 @@ export default function Dashboard() {
   }
 
   const handleRejectClick = (item: any) => {
-    setSelectedItem(item)
     setRejectionFeedback("")
     setIsRejectDialogOpen(true)
   }
@@ -159,7 +157,7 @@ export default function Dashboard() {
                                 </Tooltip>
                               </TooltipProvider>
 
-                              <Button variant="ghost" size="sm" className="mx-auto pr-15 text-blue-500" onClick={() => setIsApproveDialogOpen(true)}>
+                              <Button variant="ghost" size="sm" className="mx-auto pr-15 text-blue-500" onClick={() => handleApproveClick(item)}>
                                 <Eye className="mr-1 h-4 w-4" /> View
                               </Button>
                             </div>
