@@ -86,7 +86,7 @@ export default function ContentManagersPage() {
               <TableRow className="">
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead className="pl-6">Status</TableHead>
+                <TableHead className="pl-6">History</TableHead>
                 <TableHead className="pl-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -96,9 +96,9 @@ export default function ContentManagersPage() {
                   <TableCell className="font-medium">{manager.name}</TableCell>
                   <TableCell>{manager.email}</TableCell>
                   <TableCell>
-                    <Link href='/log'>
+                    <Link href='/log' className="flex justify-center items-center">
                       <Button variant={"ghost"}>
-                       📝 History
+                       📝
                       </Button>
                     </Link>
                   </TableCell>
@@ -169,7 +169,7 @@ export default function ContentManagersPage() {
             <Button variant="outline" onClick={() => setIsAddManagerDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleAddManager}>Send Request</Button>
+            <Button onClick={handleAddManager}>Send Invitation</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

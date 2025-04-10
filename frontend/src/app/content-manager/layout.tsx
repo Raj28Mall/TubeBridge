@@ -30,7 +30,7 @@ export default function ContentManagerLayout({
         <Sidebar>
         <SidebarHeader className="px-4 py-[10px]">
             <Link href='/' className="flex flex-row items-center">
-            <Image className="p-0 m-0" src="/logo.jpeg" alt="Logo" width={50} height={50}/>
+            <Image className="p-0 m-0" src="/logo.png" alt="Logo" width={50} height={50}/>
             <span className="text-xl font-bold">TubeBridge</span>
             </Link>
           </SidebarHeader>
