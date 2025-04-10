@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -9,9 +10,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { CheckCircle, Clock, AlertCircle, Eye, Check, X } from "lucide-react"
+import { CheckCircle, Clock, AlertCircle, Eye, Check, X, Loader2 } from "lucide-react"
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import Image from "next/image";
 
 interface ApprovalItem{
@@ -80,6 +82,8 @@ export default function Dashboard() {
     tags: "",
   });
   const [rejectionFeedback, setRejectionFeedback] = useState("");
+  const [approvalLoading, setApprovalLoading]= useState<boolean>(false);
+  const [rejectionLoading, setRejectionLoading]=useState<boolean>(false);
 
   const handleApproveClick = (item: ApprovalItem) => {
     setEditedMetadata({
@@ -95,14 +99,22 @@ export default function Dashboard() {
     setIsRejectDialogOpen(true);
   }
 
-  const confirmApproval = () => {
+  const confirmApproval = async () => {
     // Add API to confirm Approval
+    setApprovalLoading(true);
+    await new Promise((resolve)=> setTimeout(resolve, 2000));
+    setApprovalLoading(false);
     setIsApproveDialogOpen(false);
+    toast.success(editedMetadata.title + " has been approved");
   }
 
-  const confirmRejection = () => {
+  const confirmRejection = async () => {
     // Add API to confirm Rejection
+    setRejectionLoading(true);
+    await new Promise((resolve)=> setTimeout(resolve, 2000));
+    setRejectionLoading(false);
     setIsRejectDialogOpen(false);
+    toast.error(editedMetadata.title + " has been rejected");
   }
 
 
@@ -320,7 +332,7 @@ export default function Dashboard() {
               Cancel
             </Button>
             <Button onClick={confirmApproval} disabled={!editedMetadata.description || !editedMetadata.tags} className="bg-green-600 hover:bg-green-700 active:bg-green-300">
-              Confirm Approval
+              {approvalLoading? <Loader2 className="animate-spin h-5 w-5"/> : 'Confirm Approval'}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -358,7 +370,7 @@ export default function Dashboard() {
               Cancel
             </Button>
             <Button variant="destructive" onClick={confirmRejection} disabled={!rejectionFeedback.trim()}>
-              Confirm Rejection
+            {rejectionLoading? <Loader2 className="animate-spin h-5 w-5"/> : 'Confirm Rejection'}
             </Button>
           </DialogFooter>
         </DialogContent>

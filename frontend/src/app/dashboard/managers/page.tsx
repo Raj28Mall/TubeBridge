@@ -14,9 +14,6 @@ import { History, Loader2, Plus, UserX } from "lucide-react";
 const initialManagers = [
   { id: 1, name: "John Doe", email: "john.doe@example.com" },
   { id: 2, name: "Jane Smith", email: "jane.smith@example.com" },
-  { id: 3, name: "Mike Johnson", email: "mike.johnson@example.com" },
-  { id: 4, name: "Sarah Williams", email: "sarah.williams@example.com" },
-  { id: 5, name: "David Brown", email: "david.brown@example.com" },
 ];
 
 export default function ContentManagersPage() {
@@ -156,7 +153,7 @@ export default function ContentManagersPage() {
             <Button variant="outline" onClick={() => setIsAddManagerDialogOpen(false)}>
               Cancel
             </Button>
-            <Button variant={'ghost'} className="bg-blue-600 text-white" onClick={handleAddManager}>
+            <Button variant={'ghost'} className="bg-blue-600 hover:bg-blue-700 hover:text-white text-white" onClick={handleAddManager}>
               {emailLoading? <Loader2 className="animate-spin h-5 w-5"/>  :"Send Invitation"}
             </Button>
           </DialogFooter>
