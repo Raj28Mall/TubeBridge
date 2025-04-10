@@ -12,7 +12,17 @@ import { Badge } from "@/components/ui/badge"
 import { MoreHorizontal, Upload, Edit, Trash, Clock, CheckCircle, XCircle, Calendar } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
 
+interface videoData{
+  id: number
+  title: string
+  description: string
+  tags: string
+  uploadDate: string
+  status: string
+  feedback: string
+}
 const initialUploads = [
   {
     id: 1,
@@ -50,7 +60,7 @@ const initialUploads = [
     status: "Scheduled",
     feedback: "Scheduled for April 1st, 2023",
   },
-]
+];
 
 export default function ContentManagerDashboard() {
   const [uploads, setUploads] = useState(initialUploads)
@@ -65,13 +75,17 @@ export default function ContentManagerDashboard() {
     },
   })
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: videoData) => {
     // In a real app, this would handle the form submission
     console.log("Form submitted:", data)
 
     // Reset form
-    form.reset()
+    form.reset()  
 
+    if(!data.title || !data.description || !data.tags) {
+      toast.error("Please fill in all required fields")
+      return;
+    }
     // Add to uploads with pending status
     const newUpload = {
       id: Math.max(...uploads.map((u) => u.id)) + 1,
