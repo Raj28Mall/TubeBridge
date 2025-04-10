@@ -28,9 +28,9 @@ export default function ContentManagerLayout({
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar>
-        <SidebarHeader className="px-4 py-[10px]">
-            <Link href='/' className="flex flex-row items-center">
-            <Image className="p-0 m-0" src="/logo.png" alt="Logo" width={50} height={50}/>
+        <SidebarHeader className="px-4 py-[20px]">
+            <Link href='/' className="flex flex-row items-center gap-2">
+            <Image className="p-0 m-0" src="/logo.png" alt="Logo" width={30} height={30}/>
             <span className="text-xl font-bold">TubeBridge</span>
             </Link>
           </SidebarHeader>

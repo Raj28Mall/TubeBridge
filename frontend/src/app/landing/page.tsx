@@ -117,7 +117,7 @@ export default function LandingPage() {
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="h-12 px-8 text-sans">
-                Learn More
+                Watch Demo
               </Button>
             </div>
           </div>
@@ -275,7 +275,7 @@ export default function LandingPage() {
                   <div className="md:w-1/3">
                     <div className="aspect-square rounded-full bg-blue-100 overflow-hidden">
                       <Image
-                        src="/placeholder.svg?height=300&width=300"
+                        src="/raj.jpeg"
                         alt="Raj, a content creator"
                         width={300}
                         height={300}

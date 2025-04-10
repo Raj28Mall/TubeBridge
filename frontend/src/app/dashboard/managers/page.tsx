@@ -1,39 +1,22 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal, UserX, Plus } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
+import { History, Loader2, Plus, UserX } from "lucide-react";
 
-// Mock data for content managers
 const initialManagers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-  },{
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-  },  {
-    id: 3,
-    name: "Mike Johnson",
-    email: "mike.johnson@example.com",
-  },  {
-    id: 4,
-    name: "Sarah Williams",
-    email: "sarah.williams@example.com",
-  },  {
-    id: 5,
-    name: "David Brown",
-    email: "david.brown@example.com",
-  },
+  { id: 1, name: "John Doe", email: "john.doe@example.com" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com" },
+  { id: 3, name: "Mike Johnson", email: "mike.johnson@example.com" },
+  { id: 4, name: "Sarah Williams", email: "sarah.williams@example.com" },
+  { id: 5, name: "David Brown", email: "david.brown@example.com" },
 ];
 
 export default function ContentManagersPage() {
@@ -42,70 +25,78 @@ export default function ContentManagersPage() {
   const [isRevokeDialogOpen, setIsRevokeDialogOpen] = useState(false);
   const [isAddManagerDialogOpen, setIsAddManagerDialogOpen] = useState(false);
   const [newManager, setNewManager] = useState({ name: "", email: "" });
+  const [emailLoading, setEmailLoading] = useState<boolean>(false);
 
   const handleRevokeAccess = () => {
     setManagers(managers.filter((manager) => manager.id !== selectedManager.id));
     setIsRevokeDialogOpen(false);
     setSelectedManager(null);
-  }
+    toast.success("Manager removed");
+  };
 
-  const handleAddManager = () => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if(newManager.name === "" || newManager.email === "") {
-      setIsAddManagerDialogOpen(false);
+  const handleAddManager = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!newManager.name || !newManager.email) {
       toast.error("Please fill in all fields");
       return;
-    }
-    else if(emailRegex.test(newManager.email) === false) {
-      setIsAddManagerDialogOpen(false);
+    } else if (!emailRegex.test(newManager.email)) {
       toast.error("Please enter a valid email address");
       return;
     }
+    setEmailLoading(true);
     const newId = Math.max(...managers.map((m) => m.id)) + 1;
-    setManagers([...managers, { id: newId, ...newManager }]);
-    setNewManager({ name: "", email: "" });
+    // setManagers([...managers, { id: newId, ...newManager }]);     //manager should only be added on accepting the invite
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
     setIsAddManagerDialogOpen(false);
-    toast.success("Invite sent successfully! They will have access once they accept");
-  }
+    setNewManager({ name: "", email: "" });    
+    toast.success("Invite sent successfully!");
+    setEmailLoading(false);
+  };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between w-[40vw]">
+    <div className="space-y-6 p-4">
+      <Card className="border border-border shadow-md rounded-2xl">
+        <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Content Managers</CardTitle>
-            <CardDescription>Manage your content managers</CardDescription>
+            <CardTitle className="text-xl font-semibold">Content Managers</CardTitle>
+            <CardDescription className="text-muted-foreground">
+              Manage your content managers
+            </CardDescription>
           </div>
-          <Button onClick={() => setIsAddManagerDialogOpen(true)}>
+          <Button className="bg-blue-600" onClick={() => setIsAddManagerDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" /> Add Manager
           </Button>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="">
+              <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead className="pl-6">History</TableHead>
-                <TableHead className="pl-6">Actions</TableHead>
+                <TableHead className="text-center">History</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="">
+            <TableBody>
               {managers.map((manager) => (
-                <TableRow key={manager.id} className="">
+                <TableRow key={manager.id} className="hover:bg-muted/30">
                   <TableCell className="font-medium">{manager.name}</TableCell>
                   <TableCell>{manager.email}</TableCell>
-                  <TableCell>
-                    <Link href='/log' className="flex justify-center items-center">
-                      <Button variant={"ghost"}>
-                       📝
-                      </Button>
+                  <TableCell className="text-center">
+                    <Link href="/log">
+                      <Button className="" variant="ghost"> <History className="h-4 w-4" /></Button>
                     </Link>
                   </TableCell>
-                  <TableCell className="">
-                    <Button variant="ghost" className="text-red-600" onClick={()=>{setSelectedManager(manager); setIsRevokeDialogOpen(true);}}>
-                        <UserX className="mr-1 h-4 w-4" />
-                        Remove
+                  <TableCell className="text-center">
+                    <Button
+                      variant="ghost"
+                      className="text-red-400 hover:text-red-500"
+                      onClick={() => {
+                        setSelectedManager(manager);
+                        setIsRevokeDialogOpen(true);
+                      }}
+                    >
+                      <UserX className="mr-1 h-4 w-4" /> Remove
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -115,7 +106,6 @@ export default function ContentManagersPage() {
         </CardContent>
       </Card>
 
-      {/* Revoke Access Dialog */}
       <Dialog open={isRevokeDialogOpen} onOpenChange={setIsRevokeDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -135,12 +125,11 @@ export default function ContentManagersPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Add Manager Dialog */}
       <Dialog open={isAddManagerDialogOpen} onOpenChange={setIsAddManagerDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Content Manager</DialogTitle>
-            <DialogDescription>Add a new content manager to your team</DialogDescription>
+            <DialogDescription>Invite someone to join your team</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
@@ -150,7 +139,6 @@ export default function ContentManagersPage() {
                 value={newManager.name}
                 onChange={(e) => setNewManager({ ...newManager, name: e.target.value })}
                 placeholder="Enter name"
-                required
               />
             </div>
             <div className="grid gap-2">
@@ -161,7 +149,6 @@ export default function ContentManagersPage() {
                 value={newManager.email}
                 onChange={(e) => setNewManager({ ...newManager, email: e.target.value })}
                 placeholder="Enter email"
-                required
               />
             </div>
           </div>
@@ -169,11 +156,12 @@ export default function ContentManagersPage() {
             <Button variant="outline" onClick={() => setIsAddManagerDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleAddManager}>Send Invitation</Button>
+            <Button variant={'ghost'} className="bg-blue-600 text-white" onClick={handleAddManager}>
+              {emailLoading? <Loader2 className="animate-spin h-5 w-5"/>  :"Send Invitation"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
-

@@ -14,8 +14,16 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Image from "next/image";
 
+interface ApprovalItem{
+  id: number;
+  title: string;
+  submitter: string;
+  submitted: string;
+  description: string;
+  tags: string;
+  thumbnail: string
+}
 
-// Mock data for recent activities
 const recentActivities = [
   { id: 1, name: "John Doe", action: "Uploaded video", timestamp: "2 minutes ago", status: "success" },
   { id: 2, name: "Jane Smith", action: "Uploaded video", timestamp: "1 hour ago", status: "success" },
@@ -24,16 +32,46 @@ const recentActivities = [
   { id: 5, name: "You", action: "Rejected video", timestamp: "Yesterday", status: "error" },
 ]
 
-// Mock data for pending approvals
-
 export default function Dashboard() {
-  const [pendingApprovals, setPendingApprovals] =useState( [
-    { id: 1, title: "Product Launch Video", submitter: "Jane Smith", submitted: "2 hours ago",  },
-    { id: 2, title: "Q1 Results Presentation", submitter: "Mike Johnson", submitted: "5 hours ago", },
-    { id: 3, title: "New Marketing Campaign", submitter: "Sarah Williams", submitted: "Yesterday", },
-    { id: 4, title: "Customer Testimonial", submitter: "David Brown", submitted: "2 days ago",  },
+  const [pendingApprovals, setPendingApprovals] = useState<ApprovalItem[]>([
+    { 
+      id: 1, 
+      title: "Product Launch Video", 
+      submitter: "Jane Smith", 
+      submitted: "2 hours ago", 
+      description: "A video about our new product launch", 
+      tags: "#launch, #product",
+      thumbnail: "dummy_thumbnail.jpg",
+    },
+    { 
+      id: 2, 
+      title: "Q1 Results Presentation", 
+      submitter: "Mike Johnson", 
+      submitted: "5 hours ago", 
+      description: "Presentation on Q1 performance and results", 
+      tags: "#Q1, #presentation",
+      thumbnail: "dummy_thumbnail.jpg",
+    },
+    { 
+      id: 3, 
+      title: "New Marketing Campaign", 
+      submitter: "Sarah Williams", 
+      submitted: "Yesterday", 
+      description: "Details about our upcoming marketing campaign", 
+      tags: "#marketing, #campaign",
+      thumbnail: "dummy_thumbnail.jpg",
+    },
+    { 
+      id: 4, 
+      title: "Customer Testimonial", 
+      submitter: "David Brown", 
+      submitted: "2 days ago", 
+      description: "Testimonial video from a satisfied customer", 
+      tags: "#testimonial, #customer",
+      thumbnail: "dummy_thumbnail.jpg",
+    },
   ]);
-  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [selectedItem, setSelectedItem] = useState<ApprovalItem>();
   const [isApproveDialogOpen, setIsApproveDialogOpen] = useState(false);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [editedMetadata, setEditedMetadata] = useState({
@@ -43,28 +81,28 @@ export default function Dashboard() {
   });
   const [rejectionFeedback, setRejectionFeedback] = useState("");
 
-  const handleApproveClick = (item: any) => {
+  const handleApproveClick = (item: ApprovalItem) => {
     setEditedMetadata({
       title: item.title,
       description: item.description,
       tags: item.tags,
-    })
-    setIsApproveDialogOpen(true)
+    });
+    setIsApproveDialogOpen(true);
   }
 
-  const handleRejectClick = (item: any) => {
-    setRejectionFeedback("")
-    setIsRejectDialogOpen(true)
+  const handleRejectClick = (item: ApprovalItem) => {
+    setRejectionFeedback("");
+    setIsRejectDialogOpen(true);
   }
 
   const confirmApproval = () => {
     // Add API to confirm Approval
-    setIsApproveDialogOpen(false)
+    setIsApproveDialogOpen(false);
   }
 
   const confirmRejection = () => {
     // Add API to confirm Rejection
-    setIsRejectDialogOpen(false)
+    setIsRejectDialogOpen(false);
   }
 
 
@@ -228,8 +266,8 @@ export default function Dashboard() {
         </TabsContent>
       </Tabs>
     
-      <Dialog open={isApproveDialogOpen} onOpenChange={setIsApproveDialogOpen}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto">
+      <Dialog open={isApproveDialogOpen} onOpenChange={setIsApproveDialogOpen} >
+        <DialogContent className="max-h-[90vh] overflow-y-auto" onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>Approve Content</DialogTitle>
             <DialogDescription>Review and approve this content for publishing</DialogDescription>
@@ -249,6 +287,7 @@ export default function Dashboard() {
                   id="title"
                   value={editedMetadata.title}
                   onChange={(e) => setEditedMetadata({ ...editedMetadata, title: e.target.value })}
+                  autoFocus={false}
                 />
               </div>
 
@@ -280,7 +319,7 @@ export default function Dashboard() {
             <Button variant="outline" onClick={() => setIsApproveDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={confirmApproval} className="bg-green-600 hover:bg-green-700 active:bg-green-300">
+            <Button onClick={confirmApproval} disabled={!editedMetadata.description || !editedMetadata.tags} className="bg-green-600 hover:bg-green-700 active:bg-green-300">
               Confirm Approval
             </Button>
           </DialogFooter>

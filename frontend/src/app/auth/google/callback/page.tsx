@@ -1,4 +1,7 @@
 "use client"; 
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
@@ -65,12 +68,29 @@ export default function GoogleCallbackPage() {
 
 
   return (
-      <div>
-          <h1>Processing Google Login...</h1>
-          {isProcessing && <p>Please wait while we verify your login...</p>}
-          {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-          {/* You might want a link back to the login page if it fails permanently */}
-          {!isProcessing && error && <a href="/auth">Try Login Again</a>}
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="w-full max-w-md text-center space-y-6">
+        {/* Logo or illustration */}
+        <div className="flex justify-center">
+          <Image src="/logo.png" alt="TubeBridge Logo" width={64} height={64} className="rounded-xl" />
+        </div>
+
+        <h1 className="text-2xl font-bold text-foreground">Processing Google Login...</h1>
+
+        {isProcessing ? (
+          <div className="flex flex-col items-center space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            <p className="text-muted-foreground">Please wait while we verify your login...</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-red-500 font-medium">Error: {error}</p>
+            <Button asChild variant="outline">
+              <a href="/auth">Try Login Again</a>
+            </Button>
+          </div>
+        )}
       </div>
+    </div>
   );
 }

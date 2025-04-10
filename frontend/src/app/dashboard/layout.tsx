@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Users, LogOut } from "lucide-react";
+import { useUserStore } from "@/store/userStore";
+
 
 export default function DashboardLayout({
   children,
@@ -19,18 +21,20 @@ export default function DashboardLayout({
   useEffect(() => {
     setIsMounted(true)
   }, [])
-
+  
+  const logout= useUserStore((state) => state.logout);
   if (!isMounted) {
     return null;
   }
+  
 
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar>
-          <SidebarHeader className="px-4 py-[10px]">
-            <Link href='/' className="flex flex-row items-center">
-            <Image className="p-0 m-0" src="/logo.png" alt="Logo" width={50} height={50}/>
+          <SidebarHeader className="px-4 py-[20px]">
+            <Link href='/' className="flex flex-row items-center gap-2">
+            <Image className="p-0 m-0" src="/logo.png" alt="Logo" width={30} height={30}/>
             <span className="text-xl font-bold">TubeBridge</span>
             </Link>
           </SidebarHeader>
@@ -55,8 +59,8 @@ export default function DashboardLayout({
             </SidebarMenu>
           </SidebarContent>
           <SidebarFooter className="p-4">
-            <Button variant="outline" className="w-full" asChild>
-              <Link href="/auth">
+            <Button variant="outline" className="w-full" asChild onClick={logout}>
+              <Link href="/">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Sign Out</span>
               </Link>
