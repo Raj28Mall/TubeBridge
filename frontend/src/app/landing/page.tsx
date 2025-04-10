@@ -4,11 +4,26 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FeatureCard } from "@/components/feature-card";
 import { PricingCard } from "@/components/pricing-card";
-import { ArrowRight, Upload, CheckCircle, Shield, Settings, LogOut, User, Check, X } from "lucide-react";
+import { ArrowRight, Upload, CheckCircle, Shield, Settings, LogOut, User, Check, X, UploadIcon, UsersIcon, VideoIcon, LifeBuoyIcon, ShieldCheckIcon, BarChartIcon, CalendarIcon, } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+const freeFeatures = [
+  { icon: UploadIcon, text: "Basic uploads" },
+  { icon: VideoIcon, text: "5 videos per month" },
+  { icon: ShieldCheckIcon, text: "YouTube API integration" },
+  { icon: LifeBuoyIcon, text: "Standard support" },
+];
+
+const proFeatures = [
+  { icon: UploadIcon, text: "Unlimited uploads" },
+  { icon: UsersIcon, text: "Team collaboration" },
+  { icon: BarChartIcon, text: "Advanced analytics" },
+  { icon: CalendarIcon, text: "Bulk scheduling" },
+  { icon: LifeBuoyIcon, text: "Priority support" },
+];
 
 export default function LandingPage() {
   const user = useUserStore(state => state.user);
@@ -304,29 +319,17 @@ export default function LandingPage() {
                 title="Free"
                 price="$0"
                 description="Perfect for individuals just getting started."
-                features={[
-                  "Basic uploads",
-                  "Single-user access",
-                  "5 videos per month",
-                  "Standard support",
-                  "YouTube API integration",
-                ]}
+                features={freeFeatures}
                 buttonText="Get Started"
                 buttonVariant="outline"
+                popular={false}
               />
-
               <PricingCard
                 title="Pro"
                 price="$19"
                 period="per month"
                 description="For content creators who need more power."
-                features={[
-                  "Unlimited uploads",
-                  "Team collaboration",
-                  "Priority support",
-                  "Advanced analytics",
-                  "Bulk scheduling",
-                ]}
+                features={proFeatures}
                 buttonText="Start Free Trial"
                 buttonVariant="default"
                 popular={true}
