@@ -6,6 +6,7 @@ interface User {
   email: string;
   picture: string;
   role: "admin" | "content-manager";
+  bio?: string;
 }
 
 interface UserStore {
@@ -17,13 +18,24 @@ interface UserStore {
 export const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
-      user: null, 
-      setUser: (user) => set({ user }), 
-      logout: () => set({ user: null }), 
+      user: null,
+      setUser: (user) => set({ user }),
+      logout: () => set({ user: null }),
     }),
     {
       name: "user-storage",
-      getStorage: () => localStorage, 
+      storage: {
+        getItem: (name) => {
+          const value = localStorage.getItem(name);
+          return value ? JSON.parse(value) : null;
+        },
+        setItem: (name, value) => {
+          localStorage.setItem(name, JSON.stringify(value));
+        },
+        removeItem: (name) => {
+          localStorage.removeItem(name);
+        },
+      },
     }
   )
 );

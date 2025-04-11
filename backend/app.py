@@ -11,6 +11,7 @@ CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
 @app.route("/api/auth/google/exchange", methods=["POST", "OPTIONS"])
 @cross_origin(origins=["http://localhost:3000"], supports_credentials=True)
+
 def google_exchange_code_route():
     return handle_google_oauth_exchange()
 

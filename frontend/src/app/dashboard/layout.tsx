@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, LogOut, User } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 
 
@@ -53,6 +53,14 @@ export default function DashboardLayout({
                   <Link className="pl-4" href="/dashboard/managers">
                     <Users className="mr-2 h-4 w-4" />
                     <span>Content Managers</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/profile"}>
+                  <Link className="pl-4" href="/profile">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>My Profile</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

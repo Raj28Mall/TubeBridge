@@ -23,6 +23,15 @@ interface videoData{
   status: string
   feedback: string
 }
+
+interface videoDataForm{
+  id: number
+  title: string
+  description: string
+  tags: string
+  scheduledTime: string
+}
+
 const initialUploads = [
   {
     id: 1,
@@ -75,7 +84,7 @@ export default function ContentManagerDashboard() {
     },
   })
 
-  const onSubmit = (data: videoData) => {
+  const onSubmit = (data: videoDataForm) => {
     // In a real app, this would handle the form submission
     console.log("Form submitted:", data)
 

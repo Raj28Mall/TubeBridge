@@ -84,7 +84,7 @@ export default function GoogleCallbackPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="text-red-500 font-medium">Error: {error}</p>
+            <p className="text-red-500 font-medium">Error while Logging In</p>
             <Button asChild variant="outline">
               <a href="/auth">Try Login Again</a>
             </Button>
