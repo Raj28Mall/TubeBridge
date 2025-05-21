@@ -74,12 +74,11 @@ def handle_google_oauth_exchange():
             final_user_role = role_from_frontend
             user_id_in_db = str(inserted_user.inserted_id)
 
-        print(f"Login successful for {user_email}. Assigned role: {final_user_role}")
-
         response = make_response(jsonify({
             "status": "success",
             "message": "Authentication successful",
             "user": {
+                "id": user_id_in_db,
                 "email": user_email,
                 "name": user_name,
                 "picture": user_picture,
@@ -96,7 +95,6 @@ def handle_google_oauth_exchange():
             samesite="Strict",
             max_age=Config.REFRESH_TOKEN_AGE
         )
-        print(id_token_jwt)
         return response
 
     except ValueError as e:

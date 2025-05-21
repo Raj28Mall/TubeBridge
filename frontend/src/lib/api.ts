@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 
 const BASE_URL='http://127.0.0.1:5000/api';
 
@@ -8,8 +9,8 @@ interface Manager{
 }
 
 export const getManagers = async () => {
-  const response = await axios.get(`${BASE_URL}/managers`);
-  return response.data;
+    const response = await axiosInstance.get(`${BASE_URL}/managers`);
+    return response.data;
 };
 
 export const addManager = async (manager: Manager) => {

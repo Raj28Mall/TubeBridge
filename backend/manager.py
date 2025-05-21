@@ -3,10 +3,11 @@ from db import users_collection
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from config import Config
+from mail import send_email
 
 manager = Blueprint('managers', __name__, url_prefix='/api') # url_prefix is optional
 
-@manager.route('/manager', methods=['GET'])
+@manager.route('/managers', methods=['GET'])
 def get_managers():
     """
     Get manager information, filtered by the logged-in user's Google ID.
@@ -51,7 +52,6 @@ def add_manager():
         if not data:
             return jsonify({"error": "No data provided"}), 400
 
-        # Validate required fields
         required_fields = ["name", "email"]
         for field in required_fields:
             if field not in data:

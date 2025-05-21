@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
@@ -10,19 +10,39 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { History, Loader2, Mail, Plus, UserX } from "lucide-react";
-
-const initialManagers = [
-  { id: 1, name: "John Doe", email: "john.doe@example.com" },
-  { id: 2, name: "Jane Smith", email: "jane.smith@example.com" },
-];
+import { getManagers } from "@/lib/api";
 
 export default function ContentManagersPage() {
-  const [managers, setManagers] = useState(initialManagers);
+  const [managers, setManagers] = useState<any[]>([]);
   const [selectedManager, setSelectedManager] = useState<any>(null);
   const [isRevokeDialogOpen, setIsRevokeDialogOpen] = useState(false);
   const [isAddManagerDialogOpen, setIsAddManagerDialogOpen] = useState(false);
   const [newManager, setNewManager] = useState({ name: "", email: "" });
   const [emailLoading, setEmailLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchManagers = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getManagers();
+        if (data && Array.isArray(data)) {
+          setManagers(data);
+        } else {
+          setManagers([]); 
+          toast.error("Failed to fetch managers: Unexpected response format.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch managers:", error);
+        toast.error("Failed to fetch managers. Please try again later.");
+        setManagers([]); 
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchManagers();
+  }, []);
 
   const handleRevokeAccess = () => {
     setManagers(managers.filter((manager) => manager.id !== selectedManager.id));
@@ -41,8 +61,6 @@ export default function ContentManagersPage() {
       return;
     }
     setEmailLoading(true);
-    const newId = Math.max(...managers.map((m) => m.id)) + 1;
-    // setManagers([...managers, { id: newId, ...newManager }]);     //manager should only be added on accepting the invite
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
     setIsAddManagerDialogOpen(false);
     setNewManager({ name: "", email: "" });    
@@ -75,29 +93,37 @@ export default function ContentManagersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {managers.map((manager) => (
-                <TableRow key={manager.id} className="hover:bg-muted/30">
-                  <TableCell className="font-medium">{manager.name}</TableCell>
-                  <TableCell>{manager.email}</TableCell>
-                  <TableCell className="text-center">
-                    <Link href="/log">
-                      <Button className="" variant="ghost"> <History className="h-4 w-4" /></Button>
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <Button
-                      variant="ghost"
-                      className="text-red-400 hover:text-red-500"
-                      onClick={() => {
-                        setSelectedManager(manager);
-                        setIsRevokeDialogOpen(true);
-                      }}
-                    >
-                      <UserX className="mr-1 h-4 w-4" /> Remove
-                    </Button>
+              {managers.length > 0 ? (
+              managers.map((manager) => (
+                  <TableRow key={manager._id} className="hover:bg-muted/30">
+                    <TableCell className="font-medium">{manager.name}</TableCell>
+                    <TableCell>{manager.email}</TableCell>
+                    <TableCell className="text-center">
+                      <Link href="/log">
+                        <Button className="" variant="ghost"> <History className="h-4 w-4" /></Button>
+                      </Link>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Button
+                        variant="ghost"
+                        className="text-red-400 hover:text-red-500"
+                        onClick={() => {
+                          setSelectedManager(manager);
+                          setIsRevokeDialogOpen(true);
+                        }}
+                      >
+                        <UserX className="mr-1 h-4 w-4" /> Remove
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center text-muted-foreground">
+                    No content managers found.
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </CardContent>
