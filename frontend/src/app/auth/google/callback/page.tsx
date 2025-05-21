@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import { useRoleStore } from '@/store/roleStore';
 
-const BACKEND_API_URL = "http://127.0.0.1:5000/api/auth/google/exchange"; 
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 export default function GoogleCallbackPage() {
   const router = useRouter();
@@ -21,6 +21,12 @@ export default function GoogleCallbackPage() {
       setError(null); 
 
       try {
+          if (!BACKEND_API_URL) {
+              throw new Error("Backend API URL is not defined");
+          }
+          else{
+            console.log("Backend API URL exists");
+          }
           const res = await fetch(BACKEND_API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -41,9 +47,13 @@ export default function GoogleCallbackPage() {
           // This logic might need refinement based on what your backend returns
           router.push("/landing");
 
-      } catch (err: any) {
+      } catch (err: unknown) {
           console.error("Error exchanging auth code:", err);
-          setError(err.message || "An unknown error occurred during login.");
+          if (err instanceof Error) {
+              setError(err.message);
+          } else {
+              setError("An unknown error occurred during login.");
+          }
           setIsProcessing(false); // Stop processing on error
       }
   };
@@ -72,7 +82,7 @@ export default function GoogleCallbackPage() {
       <div className="w-full max-w-md text-center space-y-6">
         {/* Logo or illustration */}
         <div className="flex justify-center">
-          <Image src="/logo.png" alt="TubeBridge Logo" width={64} height={64} className="rounded-xl" />
+          <Image src="/logo.png" alt="TubeBridge" width={64} height={64} className="rounded-xl" />
         </div>
 
         <h1 className="text-2xl font-bold text-foreground">Processing Google Login...</h1>

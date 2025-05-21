@@ -65,24 +65,6 @@ export default function AuthPage() {
                 Sign in with Google
               </Button>
 
-              <div className="mt-3">
-                <h3 className="mb-4 text-sm font-medium">Select Your Role</h3>
-                <RadioGroup
-                  defaultValue="admin"
-                  value={role}
-                  onValueChange={setRole}
-                  className="space-y-3"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="admin" id="admin" />
-                    <Label className="" htmlFor="admin">Admin</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="content-manager" id="content-manager" />
-                    <Label className="" htmlFor="content-manager">Content Manager</Label>
-                  </div>
-                </RadioGroup>
-              </div>
             </CardContent>
             <CardFooter>
               <Button className="w-full" onClick={handleLogin}>

@@ -9,6 +9,7 @@ import { useUserStore } from "@/store/userStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Footer } from "@/components/footer";
 
 const freeFeatures = [
   { icon: UploadIcon, text: "Basic uploads" },
@@ -56,7 +57,7 @@ export default function LandingPage() {
             </Link>
             {user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger className="cursor-pointer" asChild>
                   <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.picture} alt="User" />
@@ -73,13 +74,13 @@ export default function LandingPage() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem className="cursor-pointer" asChild>
                       <Link href="/profile">
                         <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem className="cursor-pointer" asChild>
                       <Link href="/profile">
                         <Settings className="mr-2 h-4 w-4" />
                         <span>Settings</span>
@@ -87,7 +88,7 @@ export default function LandingPage() {
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogOut}>
+                  <DropdownMenuItem className="cursor-pointer" onClick={handleLogOut}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
@@ -359,31 +360,7 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-
-      <footer className="pt-6 pb-8 px-10 bg-slate-900">
-        <div className="container">
-          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-            <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="Logo" width={30} height={30} />
-              <span className="text-lg font-bold text-slate-300 hover:text-white">TubeBridge</span>
-            </div>
-            <div className="flex gap-6 pl-30">
-              <Link href="#" className="text-sm text-slate-300 hover:text-white">
-                Terms
-              </Link>
-              <Link href="#" className="text-sm text-slate-300 hover:text-white">
-                Privacy
-              </Link>
-              <Link href="#" className="text-sm text-slate-300 hover:text-white">
-                Contact
-              </Link>
-            </div>
-            <div className="text-sm text-slate-300 hover:text-white">
-              © {new Date().getFullYear()} TubeBridge. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />       
     </div>
   )
 }

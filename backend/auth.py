@@ -5,23 +5,9 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from pymongo import MongoClient
 from dotenv import load_dotenv
-
-load_dotenv()
-
-# Constants
-REFRESH_TOKEN_AGE = 60 * 60 * 24 * 30
-CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-MONGO_URI = "mongodb://localhost:27017/"
-DATABASE_NAME = "TubeBridge"
-EXPECTED_REDIRECT_URI = "http://localhost:3000/auth/google/callback"
-TOKEN_URL = "https://oauth2.googleapis.com/token"
-
-# Mongo Setup
-client = MongoClient(MONGO_URI)
-db = client[DATABASE_NAME]
-users_collection = db["users"]
-
+from db import users_collection
+from config import Config
+    
 def handle_google_oauth_exchange():
     try:
         data = request.get_json()
@@ -37,12 +23,12 @@ def handle_google_oauth_exchange():
         # Exchange code for tokens
         token_payload = {
             'code': auth_code,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'redirect_uri': EXPECTED_REDIRECT_URI,
+            'client_id': Config.CLIENT_ID,
+            'client_secret': Config.CLIENT_SECRET,
+            'redirect_uri': Config.EXPECTED_REDIRECT_URI,
             'grant_type': 'authorization_code'
         }
-        token_response = requests.post(TOKEN_URL, data=token_payload, timeout=10)
+        token_response = requests.post(Config.TOKEN_URL, data=token_payload, timeout=10)
         token_response.raise_for_status()
 
         token_data = token_response.json()
@@ -54,7 +40,7 @@ def handle_google_oauth_exchange():
             print("Error: ID token not found in Google's response.")
             return jsonify({"error": "ID token not received from Google"}), 502
 
-        idinfo = id_token.verify_oauth2_token(id_token_jwt, google_requests.Request(), CLIENT_ID)
+        idinfo = id_token.verify_oauth2_token(id_token_jwt, google_requests.Request(), Config.CLIENT_ID)
 
         user_google_id = idinfo['sub']
         user_email = idinfo['email']
@@ -99,7 +85,8 @@ def handle_google_oauth_exchange():
                 "picture": user_picture,
                 "role": final_user_role
             },
-            "access_token": access_token
+            "access_token": access_token,
+            "id_token": id_token_jwt,
         }))
         response.set_cookie(
             key="refresh_token",
@@ -107,8 +94,9 @@ def handle_google_oauth_exchange():
             httponly=True,
             secure=True,
             samesite="Strict",
-            max_age=REFRESH_TOKEN_AGE
+            max_age=Config.REFRESH_TOKEN_AGE
         )
+        print(id_token_jwt)
         return response
 
     except ValueError as e:

@@ -15,6 +15,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import Image from "next/image";
+import { Footer } from "@/components/footer";
 
 interface ApprovalItem{
   id: number;
@@ -127,7 +128,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent className="-my-3">
             <div className="text-2xl font-bold pb-3">7</div>
-            <p className="text-xs text-muted-foreground ">+3 since yesterday</p>
+            <p className="text-xs text-muted-foreground ">3 this week</p>
           </CardContent>
         </Card>
         <Card>

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
-import { History, Loader2, Plus, UserX } from "lucide-react";
+import { History, Loader2, Mail, Plus, UserX } from "lucide-react";
 
 const initialManagers = [
   { id: 1, name: "John Doe", email: "john.doe@example.com" },
@@ -108,7 +108,7 @@ export default function ContentManagersPage() {
           <DialogHeader>
             <DialogTitle>Remove Manager</DialogTitle>
             <DialogDescription>
-              Are you sure you want to remove {selectedManager?.name}? This action cannot be undone.
+              Are you sure you want to remove {selectedManager?.name}? They will be notified through email. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -126,7 +126,7 @@ export default function ContentManagersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Content Manager</DialogTitle>
-            <DialogDescription>Invite someone to join your team</DialogDescription>
+            <DialogDescription>Invite someone to join your team. They will be notified through email.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
