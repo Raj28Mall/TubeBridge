@@ -1,33 +1,37 @@
-# Python bytecode
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+tubebridge
 
-# Virtual environment
-venv/
-env/
+# Test binary, built with `go test -c`
+*.test
 
-# Editor and system files
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# Environment files
+.env
+.env.local
+
+# Uploads directory contents (but keep the directory)
+uploads/*
+!uploads/.gitkeep
+
+# IDE files
 .vscode/
 .idea/
 *.swp
+*.swo
+
+# OS files
 .DS_Store
-
-# Logs and database
-*.log
-*.sqlite3
-*.db
-
-# Environment variables
-.env
-.env.local
-.env.*.backup
-
-# Compiled Python
-*.egg-info/
-*.egg
-
-# Flask-specific
-instance/
-*.bak
+Thumbs.db
