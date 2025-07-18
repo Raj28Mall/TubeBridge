@@ -4,34 +4,64 @@
 *.dll
 *.so
 *.dylib
-tubebridge
-
-# Test binary, built with `go test -c`
 *.test
-
-# Output of the go coverage tool
 *.out
 
-# Dependency directories
-vendor/
+# Build directory
+/build/
+/bin/
+/dist/
 
-# Go workspace file
-go.work
-
-# Environment files
-.env
-.env.local
-
-# Uploads directory contents (but keep the directory)
-uploads/*
-!uploads/.gitkeep
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
+# OS-generated files
 .DS_Store
 Thumbs.db
+
+# Go build and test cache
+*.log
+*.prof
+*.tmp
+*.swp
+
+# Go modules
+/vendor/
+
+# Dependency directories
+Gopkg.lock
+Gopkg.toml
+
+# IDEs and editors
+.vscode/
+.idea/
+*.code-workspace
+
+# Goland specific
+*.iml
+*.ipr
+*.iws
+out/
+
+# VS Code Go extension files
+*.test
+
+# JetBrains Rider
+.idea/
+.idea_modules/
+
+# GoLand project files
+*.go.jetbrains
+
+# Generated files
+*.gen.go
+
+# Env and config files
+.env
+.env.*
+
+# Cover profile
+coverage.out
+
+# Race detector output
+race.out
+
+# GitHub Codespaces
+.devcontainer/
