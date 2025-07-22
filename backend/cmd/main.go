@@ -4,24 +4,29 @@ import (
 	"log"
 
 	"github.com/Raj28Mall/TubeBridge/backend/config"
-	"github.com/Raj28Mall/TubeBridge/backend/db"
 	"github.com/Raj28Mall/TubeBridge/backend/routes"
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	log.Println("Hello, World!")
+func init() {
 
+}
+
+func main() {
 	cfg := config.Load()
 
-	db.Connect()
-
 	r := gin.Default()
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
+
+	// Middleware
+	// r.Use(gin.Logger()) //These are already added by the gin.Default() function
+	// r.Use(gin.Recovery())
+
 	routes.SetupRoutes(r)
+
 	log.Printf("Server starting on port %s", cfg.PORT)
-	if err := r.Run(":" + cfg.PORT); err != nil {
+
+	err := r.Run(":" + cfg.PORT)
+	if err != nil {
 		log.Fatal("Failed to start server:", err)
 	}
 }
